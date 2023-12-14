@@ -46,13 +46,16 @@ class _CustomDropDownState extends State<CustomDropDown> {
             ? widget.dropItems.map((String value) {
                 return DropdownMenuItem(
                   value: value,
-                  child: Text(
-                    value,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.w600),
-                    overflow: TextOverflow.ellipsis,
+                  child: SizedBox(
+                    width: widget.width != null ? widget.width! - 40 : null,
+                    child: Text(
+                      value,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 );
               }).toList()

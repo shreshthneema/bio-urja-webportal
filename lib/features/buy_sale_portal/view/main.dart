@@ -115,7 +115,15 @@ class BuySalePortalMain extends StatelessWidget {
                   title: const Text("Contact"),
                   // fieldWidth: width - leftPadding - 180,
                   field: CustomDropDown(
-                    dropItems: const ["(Empty)", 'Jeff Huck'],
+                    dropItems: const [
+                      "Ian Waring",
+                      'Jeff Huck',
+                      'Jim Frick',
+                      'JoshRogers',
+                      'Keth Malazdrewicz',
+                      'Kyle Finn',
+                      'Matt Brewer'
+                    ],
                     onSaved: (val) {},
                     defaultValue: 'Jeff Huck',
                   ),
@@ -139,9 +147,17 @@ class BuySalePortalMain extends StatelessWidget {
                   title: const Text("Trader"),
                   // fieldWidth: width - leftPadding - 180,
                   field: CustomDropDown(
-                    dropItems: const ["(Empty)", 'Jeff Huck'],
+                    dropItems: const [
+                      "GirishUpadhyaya",
+                      'Iliya Naydenov',
+                      'James Hangyal',
+                      'Jen Piper',
+                      'Joe Beck',
+                      'Joe Park',
+                      'Keyur Shah'
+                    ],
                     onSaved: (val) {},
-                    defaultValue: 'Jeff Huck',
+                    defaultValue: 'Iliya Naydenov',
                   ),
                 ),
               ],
@@ -385,7 +401,15 @@ class SideForm extends StatelessWidget {
             children: [
               CustomDropDown(
                 width: 150,
-                dropItems: const ['KM STL BULK'],
+                dropItems: const [
+                  'KM STL BULK',
+                  'KM STL RACK',
+                  'MIDWEST BULK',
+                  'MIDWEST RACK',
+                  'RACK',
+                  'SPECULATIVE',
+                  'STORAGE'
+                ],
                 onSaved: (val) {},
                 defaultValue: 'KM STL BULK',
               ),
@@ -442,7 +466,16 @@ class SideForm extends StatelessWidget {
           fieldDefaultWidth: 200,
           title: const Text('Payment Terms:'),
           field: CustomDropDown(
-            dropItems: const ['W2-BizDFromInvDat'],
+            dropItems: const [
+              'W2-BizDFromInvDat',
+              'WB',
+              'Wire0-BizDFromInvDat',
+              'Wire0-BizDFromLift',
+              'Wire 10-BizDFromLift',
+              'Wire10-CalDFromLift',
+              'Wire10-CalDFromROI',
+              'Wire1-BizDFromLift'
+            ],
             onSaved: (val) {},
             defaultValue: 'W2-BizDFromInvDat',
           ),
@@ -510,7 +543,16 @@ class SideForm extends StatelessWidget {
           fieldDefaultWidth: 200,
           title: const Text('Method:'),
           field: CustomDropDown(
-            dropItems: const ['PIPELINE'],
+            dropItems: const [
+              'BARGE',
+              'BOOK TRANSFER',
+              'PIPELINE',
+              'PTO',
+              'RAILCAR',
+              'STOCK TRANSFER',
+              'TANK TRANSFER',
+              'TRUCK'
+            ],
             onSaved: (val) {},
             defaultValue: 'PIPELINE',
           ),
@@ -520,8 +562,17 @@ class SideForm extends StatelessWidget {
           title: const Text('Title Transfer:'),
           fields: [
             CustomDropDown(
-              width: 180,
-              dropItems: const ['Free on Board', 'gal'],
+              width: 200,
+              dropItems: const [
+                'Free on Board',
+                'Cost and Freight',
+                'Cost,Insurance and Freight',
+                'Carriage Paid To',
+                'Carriage and Insurance Paid To',
+                'Delivered at Place',
+                'Delivered EX Ship',
+                'Delivered EX Quay (Duty Paid)'
+              ],
               onSaved: (val) {},
               defaultValue: 'Free on Board',
             ),
@@ -536,18 +587,36 @@ class SideForm extends StatelessWidget {
             ),
             CustomDropDown(
               width: 180,
-              dropItems: const ['PDA - TX (COLONIAL P/L)', 'gal'],
+              dropItems: const [
+                'Free on Board',
+                'Cost and Freight',
+                'Cost,Insurance and Freight',
+                'Carriage Paid To',
+                'Carriage and Insurance Paid To',
+                'Delivered at Place',
+                'Delivered EX Ship',
+                'Delivered EX Quay (Duty Paid)'
+              ],
               onSaved: (val) {},
-              defaultValue: 'PDA - TX (COLONIAL P/L)',
+              defaultValue: 'Free on Board',
             ),
           ],
         ),
         FormSection(
           defaultWidth: minor,
-          fieldDefaultWidth: 200,
+          fieldDefaultWidth: 250,
           title: const Text('Carrier:'),
           field: CustomDropDown(
-            dropItems: const ['COLONIAL PIPELINE'],
+            width: 250,
+            dropItems: const [
+              'COLONIAL PIPELINE',
+              'COLONIAL TRANSPORT INC',
+              'COMMERCIAL LUBRICATO',
+              'CONESTOGA TRANSPORT LLC',
+              'CONSOLIDATED TRUCKING INC',
+              'CONSUMERS COOPERATIVE SOCIETY',
+              'CONSUMERS PETRO',
+            ],
             onSaved: (val) {},
             defaultValue: 'COLONIAL PIPELINE',
           ),
@@ -558,9 +627,18 @@ class SideForm extends StatelessWidget {
           fields: [
             CustomDropDown(
               width: 180,
-              dropItems: const ['PDA - TX (COLONIAL P/L)', 'gal'],
+              dropItems: const [
+                'PDA-TX (COLONIAL P/L)',
+                'PDA TX (EXPLORER P/L)',
+                'PHI-PA (BUCKEYE P/L)',
+                'PLJ-AL (COLONIAL P/L)',
+                'PRD NJ (COLONIAL P/L)',
+                'PSD-GA (COLONIAL P/L)',
+                'PTN TX (EXPLORER P/L)',
+                'RCH-MN (MAG)'
+              ],
               onSaved: (val) {},
-              defaultValue: 'PDA - TX (COLONIAL P/L)',
+              defaultValue: 'PDA-TX (COLONIAL P/L)',
             ),
             const SizedBox(
               width: 5,
@@ -573,9 +651,18 @@ class SideForm extends StatelessWidget {
             ),
             CustomDropDown(
               width: 180,
-              dropItems: const ['PDA - TX (COLONIAL P/L)', 'gal'],
+              dropItems: const [
+                'PDA-TX (COLONIAL P/L)',
+                'PDA TX (EXPLORER P/L)',
+                'PHI-PA (BUCKEYE P/L)',
+                'PLJ-AL (COLONIAL P/L)',
+                'PRD NJ (COLONIAL P/L)',
+                'PSD-GA (COLONIAL P/L)',
+                'PTN TX (EXPLORER P/L)',
+                'RCH-MN (MAG)'
+              ],
               onSaved: (val) {},
-              defaultValue: 'PDA - TX (COLONIAL P/L)',
+              defaultValue: 'PDA-TX (COLONIAL P/L)',
             ),
           ],
         ),
@@ -595,7 +682,7 @@ class SideForm extends StatelessWidget {
           defaultTitleWidth: 160,
           title: const Text('Supply/Demand Region:'),
           field: CustomDropDown(
-            dropItems: const ['010GC', '60th'],
+            dropItems: const ['010GC', '020GP', '030GP', '040BI', '045RI'],
             onSaved: (val) {},
             defaultValue: '010GC',
           ),
