@@ -56,10 +56,12 @@ class BuySalePortalMain extends StatelessWidget {
             FormSection(
               title: const Text('Term:'),
               fieldDefaultWidth: 200,
-              field: CustomDropDown(
-                  dropItems: const ['(Empty)', 'Spot'],
-                  defaultValue: '(Empty)',
-                  onSaved: (val) {}),
+              field: CustomDropDown(dropItems: const [
+                'Evergreen',
+                'Spot',
+                'Term',
+                'Term Evergreen'
+              ], defaultValue: 'Evergreen', onSaved: (val) {}),
             ),
             FormSection(
               title: const Text('Print Using:'),
@@ -225,29 +227,35 @@ class BuySalePortalMain extends StatelessWidget {
                       ),
                     ),
                     alignment: Alignment.topLeft,
-                    child: Flex(
-                      direction:
+                    child: SingleChildScrollView(
+                      scrollDirection:
                           context.isMobileScreen || context.isTabletScreen
                               ? Axis.horizontal
                               : Axis.vertical,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        SideTab(
-                          baseColor: Colors.yellow,
-                          letter: 'R',
-                          isSelected: true,
-                          title:
-                              '1: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
-                        ),
-                        SideTab(
-                          baseColor: Colors.blue,
-                          letter: 'D',
-                          isSelected: false,
-                          title:
-                              '2: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
-                        ),
-                      ],
+                      child: Flex(
+                        direction:
+                            context.isMobileScreen || context.isTabletScreen
+                                ? Axis.horizontal
+                                : Axis.vertical,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          SideTab(
+                            baseColor: Colors.yellow,
+                            letter: 'R',
+                            isSelected: true,
+                            title:
+                                '1: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
+                          ),
+                          SideTab(
+                            baseColor: Colors.blue,
+                            letter: 'D',
+                            isSelected: false,
+                            title:
+                                '2: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
@@ -275,7 +283,7 @@ class BuySalePortalMain extends StatelessWidget {
                   )
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -329,7 +337,7 @@ class SideForm extends StatelessWidget {
           fields: [
             CustomDropDown(
               width: 100,
-              dropItems: const ['Bulk', 'bbl'],
+              dropItems: const ['(Empty)', 'Rack', 'Ethanol', 'Bulk'],
               onSaved: (val) {},
               defaultValue: 'Bulk',
             ),
@@ -339,7 +347,31 @@ class SideForm extends StatelessWidget {
             ),
             CustomDropDown(
               width: 180,
-              dropItems: const ['A3 (Colonial)'],
+              dropItems: const [
+                'A3 (Colonial)',
+                'A4 (Colonial)',
+                'A5 (Colonial)',
+                'A6 (Colonial)',
+                'A7 (Colonial)',
+                'A8 (Colonial)',
+                'A9 (Colonial)',
+                'A19 (Colonial)',
+                'A20 (Colonial)',
+                'A2(Colonial)',
+                'A1olonial)',
+                'A1Clonial)',
+                'A19onial)',
+                'A19onial)',
+                'A19lonial)',
+                'A19onial)',
+                'A19nial)',
+                'A19fonial)',
+                'A19fflonial)',
+                'A19lffonial)',
+                'A19lofnial)',
+                'A19olonial)',
+                'A19(Colonial)',
+              ],
               onSaved: (val) {},
               defaultValue: 'A3 (Colonial)',
             ),
@@ -592,15 +624,17 @@ class SideForm extends StatelessWidget {
                           : CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
                           'Provision information',
                           style: context.textTheme.titleMedium,
                         ),
-                        ProvisionInfoButton(title: 'CBOB'),
+                        ProvisionInfoButton(
+                          title: 'CBOB',
+                          defaultWidth: 75,
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
@@ -608,7 +642,10 @@ class SideForm extends StatelessWidget {
                             style: context.textTheme.titleSmall,
                           ),
                         ),
-                        ProvisionInfoButton(title: 'USD'),
+                        ProvisionInfoButton(
+                          title: 'USD',
+                          defaultWidth: 65,
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
@@ -616,8 +653,14 @@ class SideForm extends StatelessWidget {
                             style: context.textTheme.titleSmall,
                           ),
                         ),
-                        ProvisionInfoButton(title: 'gal'),
+                        ProvisionInfoButton(
+                          title: 'gal',
+                          defaultWidth: 55,
+                        ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     DefaultTextStyle(
                       style: context.textTheme.titleSmall!
@@ -719,37 +762,44 @@ class SideForm extends StatelessWidget {
 
 class ProvisionInfoButton extends StatelessWidget {
   final String title;
+  final double defaultWidth;
 
   const ProvisionInfoButton({
     super.key,
     required this.title,
+    required this.defaultWidth,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      style: TextButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5)),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(title),
-          Container(
-              margin: EdgeInsets.only(left: 10),
-              padding: EdgeInsets.all(1),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: context.colorScheme.primary,
-                  ),
-                  borderRadius: BorderRadius.circular(50)),
-              alignment: Alignment.center,
-              child: Icon(
-                CupertinoIcons.chevron_up_chevron_down,
-                size: 12,
-                color: context.colorScheme.primary,
-              )),
-        ],
+    return SizedBox(
+      width: defaultWidth,
+      height: 30,
+      child: TextButton(
+        onPressed: () {},
+        style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(title),
+            Container(
+                margin: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.all(1),
+                height: 15.5,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: context.colorScheme.primary,
+                    ),
+                    borderRadius: BorderRadius.circular(50)),
+                alignment: Alignment.center,
+                child: Icon(
+                  CupertinoIcons.chevron_up_chevron_down,
+                  size: 12,
+                  color: context.colorScheme.primary,
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -830,203 +880,208 @@ class PaymentFormulaTable extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
-          width: defaultWidth - 20,
-          constraints: const BoxConstraints(minWidth: 950),
-          child: Table(
-            border: TableBorder.symmetric(
-                outside: BorderSide(color: context.colorScheme.secondary)),
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            columnWidths: const {
-              0: FixedColumnWidth(20), // index
-              1: FlexColumnWidth(1), // Current Pricing Provisions
-              2: FixedColumnWidth(80), // Direction
-              3: FixedColumnWidth(85), // From Date
-              4: FixedColumnWidth(85), //To Date
-              5: FixedColumnWidth(140), // Provision Usage
-              6: FixedColumnWidth(65), // Product
-              7: FixedColumnWidth(70), //Currency
-              8: FixedColumnWidth(60), //Type
-              9: FixedColumnWidth(50), //UOM
-              10: FixedColumnWidth(50), // Status
-            },
-            // border: TableBorder.all(color: Colors.black),
+          width: defaultWidth - 22,
+          constraints: const BoxConstraints(minWidth: 950, maxHeight: 100),
+          decoration: BoxDecoration(
+              border: Border.all(color: context.colorScheme.secondary)),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Table(
+              border: TableBorder.symmetric(
+                  outside: BorderSide(color: context.colorScheme.secondary)),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              columnWidths: const {
+                0: FixedColumnWidth(20), // index
+                1: FlexColumnWidth(1), // Current Pricing Provisions
+                2: FixedColumnWidth(80), // Direction
+                3: FixedColumnWidth(85), // From Date
+                4: FixedColumnWidth(85), //To Date
+                5: FixedColumnWidth(140), // Provision Usage
+                6: FixedColumnWidth(65), // Product
+                7: FixedColumnWidth(70), //Currency
+                8: FixedColumnWidth(60), //Type
+                9: FixedColumnWidth(50), //UOM
+                10: FixedColumnWidth(50), // Status
+              },
+              // border: TableBorder.all(color: Colors.black),
 
-            children: [
-              TableRow(
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.secondary,
-                  ),
-                  children: [
-                    TableCell(
-                      child: Text(
-                        '>.',
-                        style: context.textTheme.titleMedium
-                            ?.apply(color: context.colorScheme.onSecondary),
+              children: [
+                TableRow(
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.secondary,
+                    ),
+                    children: [
+                      TableCell(
+                        child: Text(
+                          '>.',
+                          style: context.textTheme.titleMedium
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
                       ),
+                      TableCell(
+                        child: Text(
+                          'Current Pricing Provisions (1 active)',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Directions',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'From Date',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'To Date',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Provision Usage',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Product',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Currency',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Type',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'UOM',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Status',
+                          style: context.textTheme.titleSmall
+                              ?.apply(color: context.colorScheme.onSecondary),
+                        ),
+                      ),
+                    ]),
+                TableRow(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                    ),
+                    children: const [
+                      TableCell(child: Text('')),
+                      TableCell(child: Text('FIXED PRICE PURCHASE BULK')),
+                      TableCell(child: Text('Pay')),
+                      TableCell(child: Text('10/01/2023')),
+                      TableCell(child: Text('10/31/2023')),
+                      TableCell(child: Text('Actual and Estimate')),
+                      TableCell(child: Text('CBOB')),
+                      TableCell(child: Text('USD')),
+                      TableCell(child: Text('Primary	')),
+                      TableCell(child: Text('gal')),
+                      TableCell(child: Text('Active'))
+                    ]),
+                TableRow(
+                  children: <Widget>[
+                    TableCell(
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'Current Pricing Provisions (1 active)',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'Directions',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'From Date',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'To Date',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'Provision Usage',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'Product',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'Currency',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'Type',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'UOM',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
                     TableCell(
-                      child: Text(
-                        'Status',
-                        style: context.textTheme.titleSmall
-                            ?.apply(color: context.colorScheme.onSecondary),
-                      ),
+                      child: Text(''),
                     ),
-                  ]),
-              TableRow(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                  ),
-                  children: const [
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('FIXED PRICE PURCHASE BULK')),
-                    TableCell(child: Text('Pay')),
-                    TableCell(child: Text('10/01/2023')),
-                    TableCell(child: Text('10/31/2023')),
-                    TableCell(child: Text('Actual and Estimate')),
-                    TableCell(child: Text('CBOB')),
-                    TableCell(child: Text('USD')),
-                    TableCell(child: Text('Primary	')),
-                    TableCell(child: Text('gal')),
-                    TableCell(child: Text('Active'))
-                  ]),
-              TableRow(
-                children: <Widget>[
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                ],
-              ),
-              TableRow(
-                children: <Widget>[
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                  TableCell(
-                    child: Text(''),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                TableRow(
+                  children: <Widget>[
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                    TableCell(
+                      child: Text(''),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

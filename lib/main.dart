@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_theme/json_theme.dart';
 import 'package:webportal_biourja_flutter/core/app/app.dart';
-import 'package:webportal_biourja_flutter/features/buy_sale_portal/view/main.dart';
 
 import 'utils/app_assets.dart';
 
