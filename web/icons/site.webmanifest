@@ -2,7 +2,6 @@
     "name": "webportal_biourja_flutter",
     "short_name": "webportal_biourja_flutter",
     "start_url": ".",
-    "display": "standalone",
     "background_color": "#FCFDF6",
     "theme_color": "#106D20",
     "description": "A new Flutter project.",
@@ -10,26 +9,15 @@
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
+            "src": "/android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "icons/Icon-512.png",
+            "src": "/android-chrome-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
         }
-    ]
+    ],
+    "display": "standalone"
 }

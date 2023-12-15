@@ -689,8 +689,8 @@ class SideForm extends StatelessWidget {
         ),
         PaymentFormulaTable(defaultWidth: width),
         Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            padding: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.symmetric(
               horizontal: 10,
             ),
             width: width,
@@ -718,35 +718,35 @@ class SideForm extends StatelessWidget {
                           'Provision information',
                           style: context.textTheme.titleMedium,
                         ),
-                        ProvisionInfoButton(
+                        const ProvisionInfoButton(
                           title: 'CBOB',
                           defaultWidth: 75,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             'in',
                             style: context.textTheme.titleSmall,
                           ),
                         ),
-                        ProvisionInfoButton(
+                        const ProvisionInfoButton(
                           title: 'USD',
                           defaultWidth: 65,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             'per',
                             style: context.textTheme.titleSmall,
                           ),
                         ),
-                        ProvisionInfoButton(
+                        const ProvisionInfoButton(
                           title: 'gal',
                           defaultWidth: 55,
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     DefaultTextStyle(
@@ -758,21 +758,21 @@ class SideForm extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {},
-                            child: Text('Profile...'),
+                            child: const Text('Profile...'),
                           ),
                           const SizedBox(
                             width: 5,
                           ),
                           InkWell(
                             onTap: () {},
-                            child: Text('Edit Text...'),
+                            child: const Text('Edit Text...'),
                           ),
                           const SizedBox(
                             width: 5,
                           ),
                           InkWell(
                             onTap: () {},
-                            child: Text('Extended Information...'),
+                            child: const Text('Extended Information...'),
                           ),
                         ],
                       ),
@@ -865,14 +865,14 @@ class ProvisionInfoButton extends StatelessWidget {
       child: TextButton(
         onPressed: () {},
         style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5)),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(title),
             Container(
-                margin: EdgeInsets.only(left: 10),
-                padding: EdgeInsets.all(1),
+                margin: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.all(1),
                 height: 15.5,
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -963,7 +963,7 @@ class PaymentFormulaTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
@@ -1093,78 +1093,34 @@ class PaymentFormulaTable extends StatelessWidget {
                       TableCell(child: Text('gal')),
                       TableCell(child: Text('Active'))
                     ]),
-                TableRow(
+                const TableRow(
                   children: <Widget>[
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
                   ],
                 ),
-                TableRow(
+                const TableRow(
                   children: <Widget>[
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
-                    TableCell(
-                      child: Text(''),
-                    ),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
+                    TableCell(child: Text('')),
                   ],
                 ),
               ],
