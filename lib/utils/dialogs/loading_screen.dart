@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:webportal_biourja_flutter/utils/extensions/build_context_ext.dart';
 
 import 'loading_screen_controller.dart';
 
@@ -45,10 +46,11 @@ class LoadingScreen {
           child: Center(
             child: Container(
               constraints: const BoxConstraints(
-                maxWidth: 250,
-                minHeight: 120,
+                maxWidth: 120,
+                minHeight: 100,
                 // maxHeight: size.height * 0.8,
               ),
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -61,7 +63,7 @@ class LoadingScreen {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       const CircularProgressIndicator(),
                       const SizedBox(
@@ -71,7 +73,10 @@ class LoadingScreen {
                         stream: textStream.stream,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Text(snapshot.data!);
+                            return Text(
+                              snapshot.data!,
+                              style: context.textTheme.titleMedium,
+                            );
                           }
                           return const SizedBox();
                         },

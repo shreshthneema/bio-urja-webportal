@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:webportal_biourja_flutter/utils/constants/screen_breakpoints.dart';
 import '../extensions/build_context_ext.dart';
 
 class ConfirmationDialog extends StatelessWidget {
@@ -53,23 +54,38 @@ class _AndroidConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      titleTextStyle: context.textTheme.headlineLarge,
+      titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 5),
+      contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 20),
+      actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 20),
+      insetPadding: EdgeInsets.symmetric(
+          horizontal: context.screenWidth >= tabletScreenBreakpoint
+              ? context.screenWidth * 0.3
+              : 50),
+      elevation: 100,
       title: Text(title),
-      content: Text(message),
+      content: Text(
+        message,
+        style: context.textTheme.titleMedium,
+      ),
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: context.colorScheme.onBackground,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: context.colorScheme.onBackground,
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, false),
           child: const Text('Cancel'),
         ),
-        TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: isDestructive
+        const SizedBox(),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: isDestructive
                 ? context.colorScheme.error
-                : context.colorScheme.onBackground,
+                : context.colorScheme.secondary,
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, true),
           child: Text(confirmText),
         ),
       ],
