@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:webportal_biourja_flutter/features/widgets/custom_table.dart';
 import 'package:webportal_biourja_flutter/utils/dialogs/confirmation_dialog.dart';
 import 'package:webportal_biourja_flutter/utils/dialogs/dialogs.dart';
 import 'package:webportal_biourja_flutter/utils/dialogs/loading_screen.dart';
@@ -331,6 +332,7 @@ class SideForm extends StatelessWidget {
             context.isSmallDesktopScreen
         ? width
         : width * 0.42;
+
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.start,
       runSpacing: 10,
@@ -427,7 +429,7 @@ class SideForm extends StatelessWidget {
               child: NormalTextField(
                 onSaved: (val) {},
                 defaultValue: '25000.00',
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 textAlign: TextAlign.right,
               ),
             ),
@@ -542,7 +544,6 @@ class SideForm extends StatelessWidget {
         ),
         FormSection(
           defaultWidth: minor,
-          fieldDefaultWidth: 200,
           title: const Text('Method:'),
           field: CustomDropDown(
             dropItems: const [
@@ -606,7 +607,6 @@ class SideForm extends StatelessWidget {
         ),
         FormSection(
           defaultWidth: minor,
-          fieldDefaultWidth: 250,
           title: const Text('Carrier:'),
           field: CustomDropDown(
             // width: 200,
@@ -845,9 +845,181 @@ class SideForm extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: CustomTable(
+                    columnWidths: {
+                      0: FixedColumnWidth(20),
+                      1: FlexColumnWidth(1)
+                    },
+                    minWidth: 250,
+                    maxHeight: 100,
+                    defaultWidth: 250,
+                    tableHeaderTitles: [">", "FixedPrice"],
+                    dataList: [
+                      [
+                        CellData(string: ""),
+                        CellData(
+                          widget: Text(
+                            "2.177500000",
+                            style: context.textTheme.titleSmall,
+                            textAlign: TextAlign.right,
+                          ),
+                        )
+                      ]
+                    ]),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DefaultTextStyle(
+                style: context.textTheme.titleSmall!,
+                child: Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Row(children: [
+                          Text(">"),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text('Formula Tablet 1')
+                        ]),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 60,
+                                  child: NormalTextField(
+                                    onSaved: (val) {},
+                                    textAlign: TextAlign.right,
+                                    defaultValue: '100.0',
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '%',
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            SizedBox(
+                              width: 460,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Curve:',
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  CustomDropDown(
+                                    width: 100,
+                                    dropItems: ["PLATTS"],
+                                    onSaved: (val) {},
+                                    defaultValue: "PLATTS",
+                                  ),
+                                  Spacer(),
+                                  CustomDropDown(
+                                    width: 200,
+                                    dropItems: ["RBOB @ GULF COAST PIPE"],
+                                    onSaved: (val) {},
+                                    defaultValue: "RBOB @ GULF COAST PIPE",
+                                  ),
+                                  Spacer(),
+                                  CustomDropDown(
+                                    width: 100,
+                                    dropItems: ["Average"],
+                                    onSaved: (val) {},
+                                    defaultValue: "Average",
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 60,
+                                  child: NormalTextField(
+                                    onSaved: (val) {},
+                                    textAlign: TextAlign.right,
+                                    defaultValue: '0.11',
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Icon(
+                                  Icons.arrow_back,
+                                  size: 15,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            SizedBox(
+                              width: 460,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Dates:',
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Expanded(
+                                    child: CustomDropDown(
+                                      dropItems: ["Custom"],
+                                      onSaved: (val) {},
+                                      defaultValue: "Custom",
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  CustomDropDown(
+                                    width: 180,
+                                    dropItems: ["Spot"],
+                                    onSaved: (val) {},
+                                    defaultValue: "Spot",
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -961,11 +1133,17 @@ class SideTab extends StatelessWidget {
   }
 }
 
-class PaymentFormulaTable extends StatelessWidget {
+class PaymentFormulaTable extends StatefulWidget {
   final double defaultWidth;
 
   const PaymentFormulaTable({super.key, required this.defaultWidth});
 
+  @override
+  State<PaymentFormulaTable> createState() => _PaymentFormulaTableState();
+}
+
+class _PaymentFormulaTableState extends State<PaymentFormulaTable> {
+  int? isSelected;
   @override
   Widget build(BuildContext context) {
     const Map<int, TableColumnWidth> columnWidths = {
@@ -977,166 +1155,68 @@ class PaymentFormulaTable extends StatelessWidget {
       5: FixedColumnWidth(140), // Provision Usage
       6: FixedColumnWidth(65), // Product
       7: FixedColumnWidth(70), //Currency
-      8: FixedColumnWidth(60), //Type
+      8: FixedColumnWidth(75), //Type
       9: FixedColumnWidth(50), //UOM
-      10: FixedColumnWidth(50), // Status
+      10: FixedColumnWidth(60), // Status
     };
     final headerTextStyle = context.textTheme.titleSmall
         ?.apply(color: context.colorScheme.onSecondary);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Container(
-          width: defaultWidth - 22,
-          constraints: const BoxConstraints(minWidth: 950),
-          decoration: BoxDecoration(
-              border: Border.all(color: context.colorScheme.secondary)),
-          child: Column(
-            children: [
-              Table(
-                columnWidths: columnWidths,
-                children: [
-                  TableRow(
-                      decoration: BoxDecoration(
-                        color: context.colorScheme.secondary,
-                      ),
-                      children: [
-                        TableCell(
-                          child: Text(
-                            '>.',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'Current Pricing Provisions (1 active)',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'Directions',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'From Date',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'To Date',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'Provision Usage',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'Product',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'Currency',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'Type',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'UOM',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                        TableCell(
-                          child: Text(
-                            'Status',
-                            style: headerTextStyle,
-                          ),
-                        ),
-                      ]),
-                ],
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 80),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Table(
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    columnWidths: columnWidths,
-                    // border: TableBorder.all(color: Colors.black),
-
-                    children: [
-                      TableRow(
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                          ),
-                          children: const [
-                            TableCell(child: Text('')),
-                            TableCell(child: Text('FIXED PRICE PURCHASE BULK')),
-                            TableCell(child: Text('Pay')),
-                            TableCell(child: Text('10/01/2023')),
-                            TableCell(child: Text('10/31/2023')),
-                            TableCell(child: Text('Actual and Estimate')),
-                            TableCell(child: Text('CBOB')),
-                            TableCell(child: Text('USD')),
-                            TableCell(child: Text('Primary	')),
-                            TableCell(child: Text('gal')),
-                            TableCell(child: Text('Active'))
-                          ]),
-                      const TableRow(
-                        children: <Widget>[
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                        ],
-                      ),
-                      const TableRow(
-                        children: <Widget>[
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                          TableCell(child: Text('')),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      child: CustomTable(
+        columnWidths: columnWidths,
+        defaultWidth: widget.defaultWidth - 22,
+        maxHeight: 100,
+        isSelected: isSelected,
+        onSelectRow: (index) {
+          setState(() => isSelected = index);
+        },
+        minWidth: 950,
+        tableHeaderTitles: [
+          '>.',
+          'Current Pricing Provisions (1 active)',
+          'Directions',
+          'From Date',
+          'To Date',
+          'Provision Usage',
+          'Product',
+          'Currency',
+          'Type',
+          'UOM',
+          'Status',
+        ],
+        dataList: [
+          [
+            CellData(string: ''),
+            CellData(string: 'FIXED PRICE PURCHASE BULK'),
+            CellData(string: 'Pay'),
+            CellData(string: '10/01/2023'),
+            CellData(string: '10/31/2023'),
+            CellData(string: 'Actual and Estimate'),
+            CellData(string: 'CBOB'),
+            CellData(string: 'USD'),
+            CellData(string: 'Primary	'),
+            CellData(string: 'gal'),
+            CellData(string: 'Active'),
+          ],
+          [
+            CellData(string: ''),
+            CellData(string: 'Broker Commission'),
+            CellData(string: 'Pay'),
+            CellData(string: '10/01/2023'),
+            CellData(string: '10/31/2023'),
+            CellData(string: 'Actual and Estimate'),
+            CellData(string: 'CBOB'),
+            CellData(string: 'USD'),
+            CellData(string: 'Secondary'),
+            CellData(string: 'gal'),
+            CellData(string: 'Inactive'),
+          ]
+        ],
       ),
     );
+    //   return ;
   }
 }
 

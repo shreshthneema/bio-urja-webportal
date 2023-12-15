@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class CustomDropDown extends StatefulWidget {
@@ -52,7 +54,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   return DropdownMenuItem(
                     value: value,
                     child: SizedBox(
-                      width: width! - 40,
+                      width: min(width!, constraint.maxWidth) - 40,
                       child: Text(
                         value,
                         style: Theme.of(context)
