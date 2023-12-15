@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:webportal_biourja_flutter/features/widgets/normal_textfield.dart';
-import 'package:webportal_biourja_flutter/utils/app_assets.dart';
-import 'package:webportal_biourja_flutter/utils/extensions/build_context_ext.dart';
+import '../../../utils/app_assets.dart';
+import '../../../utils/extensions/build_context_ext.dart';
 
 class BaseLayout extends StatelessWidget {
   final Widget child;
@@ -21,12 +20,12 @@ class BaseLayout extends StatelessWidget {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right: 20),
+                margin: const EdgeInsets.only(right: 20),
                 width: 200,
                 child: TextField(
                   style: context.textTheme.titleMedium,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 15),
+                    contentPadding: const EdgeInsets.only(left: 15),
                     hintText: 'Search',
                     filled: true,
                     hintStyle: context.textTheme.labelMedium,

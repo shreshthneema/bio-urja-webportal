@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/extensions/date_format.dart';
+import '../../../utils/extensions/date_format.dart';
 
 class CustomDatePicker extends StatefulWidget {
   final DateTime? defaultValue;
@@ -27,7 +27,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1950),
       lastDate: DateTime(2101),
       builder: (context, child) {
         return Theme(

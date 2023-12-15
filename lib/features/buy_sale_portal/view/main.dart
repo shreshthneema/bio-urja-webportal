@@ -2,13 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:webportal_biourja_flutter/features/widgets/custom_dropdown.dart';
-import 'package:webportal_biourja_flutter/features/widgets/normal_textfield.dart';
-import 'package:webportal_biourja_flutter/utils/constants/screen_breakpoints.dart';
-import '../../../features/widgets/custom_date_picker.dart';
+import 'package:webportal_biourja_flutter/utils/dialogs/confirmation_dialog.dart';
+import 'package:webportal_biourja_flutter/utils/dialogs/dialogs.dart';
+import 'package:webportal_biourja_flutter/utils/dialogs/loading_screen.dart';
+import '../../../features/widgets/form_fields/custom_dropdown.dart';
+import '../../../features/widgets/form_fields/normal_textfield.dart';
+import '../../../utils/constants/screen_breakpoints.dart';
+import '../../widgets/form_fields/custom_date_picker.dart';
 import '../../../utils/extensions/build_context_ext.dart';
-
-import '../../widgets/base_layout.dart';
+import '../../widgets/layout/base_layout.dart';
 
 class BuySalePortalMain extends StatelessWidget {
   const BuySalePortalMain({super.key});
@@ -607,7 +609,7 @@ class SideForm extends StatelessWidget {
           fieldDefaultWidth: 250,
           title: const Text('Carrier:'),
           field: CustomDropDown(
-            width: 250,
+            // width: 200,
             dropItems: const [
               'COLONIAL PIPELINE',
               'COLONIAL TRANSPORT INC',
@@ -689,159 +691,163 @@ class SideForm extends StatelessWidget {
         ),
         PaymentFormulaTable(defaultWidth: width),
         Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            width: width,
-            decoration: BoxDecoration(
-              border: Border.all(color: context.colorScheme.secondary),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flex(
-                  direction: context.screenWidth < smallDesktopScreenBreakpoint
-                      ? Axis.vertical
-                      : Axis.horizontal,
-                  crossAxisAlignment:
-                      context.screenWidth < smallDesktopScreenBreakpoint
-                          ? CrossAxisAlignment.start
-                          : CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(
-                          'Provision information',
-                          style: context.textTheme.titleMedium,
-                        ),
-                        const ProvisionInfoButton(
-                          title: 'CBOB',
-                          defaultWidth: 75,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(
-                            'in',
-                            style: context.textTheme.titleSmall,
-                          ),
-                        ),
-                        const ProvisionInfoButton(
-                          title: 'USD',
-                          defaultWidth: 65,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(
-                            'per',
-                            style: context.textTheme.titleSmall,
-                          ),
-                        ),
-                        const ProvisionInfoButton(
-                          title: 'gal',
-                          defaultWidth: 55,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    DefaultTextStyle(
-                      style: context.textTheme.titleSmall!
-                          .apply(color: Colors.blue.shade900),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: const Text('Profile...'),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: const Text('Edit Text...'),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: const Text('Extended Information...'),
-                          ),
-                        ],
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          width: width,
+          decoration: BoxDecoration(
+            border: Border.all(color: context.colorScheme.secondary),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flex(
+                direction: context.screenWidth < smallDesktopScreenBreakpoint
+                    ? Axis.vertical
+                    : Axis.horizontal,
+                crossAxisAlignment:
+                    context.screenWidth < smallDesktopScreenBreakpoint
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        'Provision information',
+                        style: context.textTheme.titleMedium,
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                FormSection(
-                  defaultWidth: width - 30,
-                  title: const Text('Pay:'),
-                  fields: [
-                    CustomDropDown(
-                      width: 250,
-                      dropItems: const ['CHEVRON', '(Empty)', 'Spot'],
-                      defaultValue: 'CHEVRON',
-                      onSaved: (val) {},
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: 10,
-                          ),
-                          child: Text(
-                            'Usage:',
-                            style: context.textTheme.titleSmall,
-                          ),
+                      const ProvisionInfoButton(
+                        title: 'CBOB',
+                        defaultWidth: 75,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Text(
+                          'in',
+                          style: context.textTheme.titleSmall,
                         ),
-                        CustomDropDown(
-                          width: 200,
-                          dropItems: const [
-                            'Actual and Estimate',
-                            '(Empty)',
-                            'Yes'
-                          ],
-                          defaultValue: 'Actual and Estimate',
-                          onSaved: (val) {},
+                      ),
+                      const ProvisionInfoButton(
+                        title: 'USD',
+                        defaultWidth: 65,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Text(
+                          'per',
+                          style: context.textTheme.titleSmall,
+                        ),
+                      ),
+                      const ProvisionInfoButton(
+                        title: 'gal',
+                        defaultWidth: 55,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  DefaultTextStyle(
+                    style: context.textTheme.titleSmall!
+                        .apply(color: Colors.blue.shade900),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            LoadingScreen.instance()
+                                .show(context: context, text: 'Loading...');
+                          },
+                          child: const Text('Profile...'),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        InkWell(
+                          onTap: () async {},
+                          child: const Text('Edit Text...'),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: const Text('Extended Information...'),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                FormSection(
-                  defaultWidth: width - 30,
-                  title: const Text('Effective:'),
-                  fields: [
-                    CustomDatePicker(onSaved: (date) {}),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text('to'),
-                    ),
-                    CustomDatePicker(onSaved: (date) {}),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ))
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormSection(
+                defaultWidth: width - 30,
+                title: const Text('Pay:'),
+                fields: [
+                  CustomDropDown(
+                    width: 250,
+                    dropItems: const ['CHEVRON', '(Empty)', 'Spot'],
+                    defaultValue: 'CHEVRON',
+                    onSaved: (val) {},
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          right: 10,
+                        ),
+                        child: Text(
+                          'Usage:',
+                          style: context.textTheme.titleSmall,
+                        ),
+                      ),
+                      CustomDropDown(
+                        width: 200,
+                        dropItems: const [
+                          'Actual and Estimate',
+                          '(Empty)',
+                          'Yes'
+                        ],
+                        defaultValue: 'Actual and Estimate',
+                        onSaved: (val) {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormSection(
+                defaultWidth: width - 30,
+                title: const Text('Effective:'),
+                fields: [
+                  CustomDatePicker(onSaved: (date) {}),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text('to'),
+                  ),
+                  CustomDatePicker(onSaved: (date) {}),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -962,169 +968,171 @@ class PaymentFormulaTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Map<int, TableColumnWidth> columnWidths = {
+      0: FixedColumnWidth(20), // index
+      1: FlexColumnWidth(1), // Current Pricing Provisions
+      2: FixedColumnWidth(80), // Direction
+      3: FixedColumnWidth(85), // From Date
+      4: FixedColumnWidth(85), //To Date
+      5: FixedColumnWidth(140), // Provision Usage
+      6: FixedColumnWidth(65), // Product
+      7: FixedColumnWidth(70), //Currency
+      8: FixedColumnWidth(60), //Type
+      9: FixedColumnWidth(50), //UOM
+      10: FixedColumnWidth(50), // Status
+    };
+    final headerTextStyle = context.textTheme.titleSmall
+        ?.apply(color: context.colorScheme.onSecondary);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
           width: defaultWidth - 22,
-          constraints: const BoxConstraints(minWidth: 950, maxHeight: 100),
+          constraints: const BoxConstraints(minWidth: 950),
           decoration: BoxDecoration(
               border: Border.all(color: context.colorScheme.secondary)),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Table(
-              border: TableBorder.symmetric(
-                  outside: BorderSide(color: context.colorScheme.secondary)),
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              columnWidths: const {
-                0: FixedColumnWidth(20), // index
-                1: FlexColumnWidth(1), // Current Pricing Provisions
-                2: FixedColumnWidth(80), // Direction
-                3: FixedColumnWidth(85), // From Date
-                4: FixedColumnWidth(85), //To Date
-                5: FixedColumnWidth(140), // Provision Usage
-                6: FixedColumnWidth(65), // Product
-                7: FixedColumnWidth(70), //Currency
-                8: FixedColumnWidth(60), //Type
-                9: FixedColumnWidth(50), //UOM
-                10: FixedColumnWidth(50), // Status
-              },
-              // border: TableBorder.all(color: Colors.black),
+          child: Column(
+            children: [
+              Table(
+                columnWidths: columnWidths,
+                children: [
+                  TableRow(
+                      decoration: BoxDecoration(
+                        color: context.colorScheme.secondary,
+                      ),
+                      children: [
+                        TableCell(
+                          child: Text(
+                            '>.',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'Current Pricing Provisions (1 active)',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'Directions',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'From Date',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'To Date',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'Provision Usage',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'Product',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'Currency',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'Type',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'UOM',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            'Status',
+                            style: headerTextStyle,
+                          ),
+                        ),
+                      ]),
+                ],
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 80),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    columnWidths: columnWidths,
+                    // border: TableBorder.all(color: Colors.black),
 
-              children: [
-                TableRow(
-                    decoration: BoxDecoration(
-                      color: context.colorScheme.secondary,
-                    ),
                     children: [
-                      TableCell(
-                        child: Text(
-                          '>.',
-                          style: context.textTheme.titleMedium
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
+                      TableRow(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                          ),
+                          children: const [
+                            TableCell(child: Text('')),
+                            TableCell(child: Text('FIXED PRICE PURCHASE BULK')),
+                            TableCell(child: Text('Pay')),
+                            TableCell(child: Text('10/01/2023')),
+                            TableCell(child: Text('10/31/2023')),
+                            TableCell(child: Text('Actual and Estimate')),
+                            TableCell(child: Text('CBOB')),
+                            TableCell(child: Text('USD')),
+                            TableCell(child: Text('Primary	')),
+                            TableCell(child: Text('gal')),
+                            TableCell(child: Text('Active'))
+                          ]),
+                      const TableRow(
+                        children: <Widget>[
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                        ],
                       ),
-                      TableCell(
-                        child: Text(
-                          'Current Pricing Provisions (1 active)',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
+                      const TableRow(
+                        children: <Widget>[
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                          TableCell(child: Text('')),
+                        ],
                       ),
-                      TableCell(
-                        child: Text(
-                          'Directions',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'From Date',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'To Date',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Provision Usage',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Product',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Currency',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Type',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'UOM',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Status',
-                          style: context.textTheme.titleSmall
-                              ?.apply(color: context.colorScheme.onSecondary),
-                        ),
-                      ),
-                    ]),
-                TableRow(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                    ),
-                    children: const [
-                      TableCell(child: Text('')),
-                      TableCell(child: Text('FIXED PRICE PURCHASE BULK')),
-                      TableCell(child: Text('Pay')),
-                      TableCell(child: Text('10/01/2023')),
-                      TableCell(child: Text('10/31/2023')),
-                      TableCell(child: Text('Actual and Estimate')),
-                      TableCell(child: Text('CBOB')),
-                      TableCell(child: Text('USD')),
-                      TableCell(child: Text('Primary	')),
-                      TableCell(child: Text('gal')),
-                      TableCell(child: Text('Active'))
-                    ]),
-                const TableRow(
-                  children: <Widget>[
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                  ],
+                    ],
+                  ),
                 ),
-                const TableRow(
-                  children: <Widget>[
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                    TableCell(child: Text('')),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
