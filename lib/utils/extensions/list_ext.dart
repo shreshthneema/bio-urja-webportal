@@ -1,4 +1,10 @@
-extension AddRemoveItems<T> on Iterable<T> {
-  Iterable<T> operator +(T other) => followedBy([other]);
-  Iterable<T> operator -(T other) => where((element) => element != other);
+import 'package:flutter/material.dart';
+
+extension ExtendField on List<Widget> {
+  List<Widget> extend(Iterable<Widget> newWidgets) {
+    for (var widget in newWidgets) {
+      add(widget);
+    }
+    return this;
+  }
 }

@@ -87,7 +87,8 @@ class CustomTable extends StatelessWidget {
 
       return Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: cellHorizontalPadding, vertical: cellVerticalPadding),
+            horizontal: cellHorizontalPadding + 2,
+            vertical: cellVerticalPadding),
         child: cell,
       );
     }
@@ -132,7 +133,9 @@ class CustomTable extends StatelessWidget {
         constraints: BoxConstraints(minWidth: minWidth),
         decoration: BoxDecoration(
           border: Border.all(
-              color: borderColor ?? Theme.of(context).colorScheme.secondary),
+            color: borderColor ?? Theme.of(context).colorScheme.secondary,
+            width: 2,
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
