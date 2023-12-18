@@ -1,19 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../features/widgets/custom_table.dart';
-import '../../../utils/dialogs/loading_screen.dart';
-import '../../../features/widgets/form_fields/custom_dropdown.dart';
-import '../../../features/widgets/form_fields/normal_textfield.dart';
-import '../../../utils/app_color.dart';
-import '../../../utils/constants/screen_breakpoints.dart';
-import '../../widgets/field_set.dart';
-import '../../widgets/form_fields/custom_date_picker.dart';
-import '../../../utils/extensions/build_context_ext.dart';
-import '../../widgets/form_section.dart';
-import '../../widgets/layout/base_layout.dart';
+import '../../../utils/index.dart';
+import '../../widgets/index.dart';
 
-class BuySalePortalMain extends StatelessWidget {
-  const BuySalePortalMain({super.key});
+class BuySellPortalMain extends StatelessWidget {
+  const BuySellPortalMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +27,7 @@ class BuySalePortalMain extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'Buy/Sell: (Active)',
+                      'Buy/Sell Deal: (Active)',
                       style: context.textTheme.titleSmall
                           ?.apply(color: context.colorScheme.onSecondary),
                     ),
@@ -208,7 +199,6 @@ class BuySalePortalMain extends StatelessWidget {
                 ),
               ),
               FormSection(
-                fieldDefaultWidth: 120,
                 title: const Text('Trade Date:'),
                 field: CustomDatePicker(
                   onSaved: (val) {},
@@ -225,88 +215,27 @@ class BuySalePortalMain extends StatelessWidget {
                 ),
               ),
               FormSection(
-                fieldDefaultWidth: 500,
+                fieldDefaultWidth: 700,
                 defaultWidth: context.screenWidth,
                 title: const Text('Comments'),
                 field: NormalTextField(onSaved: (val) {}),
               ),
-              Container(
-                width: double.infinity,
-                // padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.only(
-                  bottom: 20,
-                ),
-                // decoration: BoxDecoration(border: Border(top: BorderSide())),
-                child: Flex(
-                  direction: context.screenWidth < smallDesktopScreenBreakpoint
-                      ? Axis.vertical
-                      : Axis.horizontal,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      // height: double.infinity,
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(),
-                        ),
-                      ),
-                      alignment: Alignment.topLeft,
-                      child: SingleChildScrollView(
-                        scrollDirection:
-                            context.screenWidth < smallDesktopScreenBreakpoint
-                                ? Axis.horizontal
-                                : Axis.vertical,
-                        child: Flex(
-                          direction:
-                              context.screenWidth < smallDesktopScreenBreakpoint
-                                  ? Axis.horizontal
-                                  : Axis.vertical,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            SideTab(
-                              baseColor: Colors.yellow,
-                              letter: 'R',
-                              isSelected: true,
-                              title:
-                                  '1: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
-                            ),
-                            SideTab(
-                              baseColor: Colors.blue,
-                              letter: 'D',
-                              isSelected: false,
-                              title:
-                                  '2: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: context.screenWidth < smallDesktopScreenBreakpoint
-                          ? 0
-                          : 1,
-                      child: Container(
-                        // width: double.infinity,
-                        // height: 500,
-                        decoration: BoxDecoration(
-                          // color: Colors.amber,
-                          border: Border(
-                            top: const BorderSide(),
-                            left: context.screenWidth >
-                                    smallDesktopScreenBreakpoint
-                                ? const BorderSide()
-                                : const BorderSide(
-                                    width: 0,
-                                    color: Colors.transparent,
-                                  ),
-                          ),
-                        ),
-                        child: const SideForm(),
-                      ),
-                    ),
-                  ],
-                ),
+              const DealDetails(
+                tabs: [
+                  SideTab(
+                    baseColor: Colors.yellow,
+                    letter: 'R',
+                    isSelected: true,
+                    title: '1: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
+                  ),
+                  SideTab(
+                    baseColor: Colors.blue,
+                    letter: 'D',
+                    isSelected: false,
+                    title: '2: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
+                  ),
+                ],
+                form: SideForm(),
               ),
             ],
           ),
@@ -531,8 +460,8 @@ class SideForm extends StatelessWidget {
           ],
         ),
         FormSection(
+          fieldDefaultWidth: 350,
           defaultWidth: major,
-          fieldDefaultWidth: 200,
           title: const Text('Control:'),
           field: NormalTextField(onSaved: (val) {}),
         ),
@@ -559,7 +488,7 @@ class SideForm extends StatelessWidget {
           title: const Text('Title Transfer:'),
           fields: [
             CustomDropDown(
-              width: 200,
+              width: 220,
               dropItems: const [
                 'Free on Board',
                 'Cost and Freight',
@@ -583,7 +512,7 @@ class SideForm extends StatelessWidget {
               height: 10,
             ),
             CustomDropDown(
-              width: 180,
+              width: 220,
               dropItems: const [
                 'Free on Board',
                 'Cost and Freight',
@@ -622,7 +551,7 @@ class SideForm extends StatelessWidget {
           title: const Text('Location:'),
           fields: [
             CustomDropDown(
-              width: 180,
+              width: 200,
               dropItems: const [
                 'PDA-TX (COLONIAL P/L)',
                 'PDA TX (EXPLORER P/L)',
@@ -646,7 +575,7 @@ class SideForm extends StatelessWidget {
               height: 10,
             ),
             CustomDropDown(
-              width: 180,
+              width: 200,
               dropItems: const [
                 'PDA-TX (COLONIAL P/L)',
                 'PDA TX (EXPLORER P/L)',
@@ -899,10 +828,11 @@ class FormulaTablet extends StatelessWidget {
       width: width - 20,
       margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       decoration: BoxDecoration(
-          border: Border.all(
-        color: context.colorScheme.secondary,
-        width: 2,
-      )),
+        border: Border.all(
+          color: context.colorScheme.secondary,
+          width: 2,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -932,9 +862,10 @@ class FormulaTablet extends StatelessWidget {
               children: [
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                      maxWidth: context.screenWidth > tabletScreenBreakpoint
-                          ? 300
-                          : 420),
+                    maxWidth: context.screenWidth > tabletScreenBreakpoint
+                        ? 300
+                        : 420,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -976,9 +907,10 @@ class FormulaTablet extends StatelessWidget {
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                      maxWidth: context.screenWidth > tabletScreenBreakpoint
-                          ? 300
-                          : 420),
+                    maxWidth: context.screenWidth > tabletScreenBreakpoint
+                        ? 300
+                        : 420,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
@@ -1015,10 +947,10 @@ class FormulaTablet extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      const Text('USD/gal')
+                      const Text('USD/gal'),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -1093,7 +1025,7 @@ class FormulaTablet extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      const Text('FX Rules...')
+                      const Text('FX Rules...'),
                     ],
                   ),
                 ),
@@ -1154,70 +1086,6 @@ class ProvisionInfoButton extends StatelessWidget {
   }
 }
 
-class SideTab extends StatelessWidget {
-  final MaterialColor baseColor;
-  final String letter;
-  final String title;
-  final bool isSelected;
-
-  const SideTab({
-    super.key,
-    required this.baseColor,
-    required this.letter,
-    required this.title,
-    required this.isSelected,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      // color: Colors.transparent,
-      textStyle: context.textTheme.titleSmall,
-      color: isSelected ? context.colorScheme.secondaryContainer : null,
-      child: InkWell(
-        onTap: () {},
-        child: Container(
-          width: 200,
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 8),
-                child: Container(
-                  padding: const EdgeInsets.all(1),
-                  width: 26,
-                  height: 26,
-                  alignment: Alignment.topCenter,
-                  decoration: BoxDecoration(
-                    color: baseColor.shade100,
-                    border: Border.all(
-                      color: baseColor.shade700,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Text(
-                    letter,
-                    style: context.textTheme.titleMedium?.apply(
-                      color: baseColor.shade700,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  title,
-                  maxLines: null,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class CurrentPricingTable extends StatefulWidget {
   final double defaultWidth;
 
@@ -1244,8 +1112,6 @@ class _CurrentPricingTableState extends State<CurrentPricingTable> {
       9: FixedColumnWidth(50), //UOM
       10: FixedColumnWidth(60), // Status
     };
-    final headerTextStyle = context.textTheme.titleSmall
-        ?.apply(color: context.colorScheme.onSecondary);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
