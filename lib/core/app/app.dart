@@ -1,6 +1,7 @@
 import 'dart:ui';
 
-import '../../features/buy_sale_portal/view/main.dart';
+import '../../features/sale_portal/view/main.dart';
+import '../../features/buy_sell_portal/view/main.dart';
 import 'style.dart';
 // import 'package:cms_main_one/core/di/get_it_setup.dart';
 // import 'package:cms_main_one/core/routes/app_router.dart';
@@ -25,7 +26,7 @@ class _MainAppState extends State<MainApp> {
       scrollBehavior: MyCustomScrollBehavior(),
       title: 'Flutter Demo',
       theme: getTheme(theme: widget.initialTheme),
-      home: const BuySalePortalMain(),
+      home: const SalePortalMain(),
     );
   }
 }

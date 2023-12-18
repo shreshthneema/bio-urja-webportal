@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utils/app_assets.dart';
-import '../../../utils/extensions/build_context_ext.dart';
+import '../../../utils/index.dart';
 
 class BaseLayout extends StatelessWidget {
   final Widget child;

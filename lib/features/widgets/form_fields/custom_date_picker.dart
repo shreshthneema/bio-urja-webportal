@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utils/extensions/date_format.dart';
+import '../../../utils/index.dart';
 
 class CustomDatePicker extends StatefulWidget {
   final DateTime? defaultValue;
@@ -64,7 +64,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         enabled: widget.isEnable,
         onTap: () => widget.isEnable ? _selectDate(context) : null,
         controller: TextEditingController(
-          text: selectedDate != null ? selectedDate!.format : "dd-mm-yyyy",
+          text: selectedDate != null ? selectedDate!.formatDate : "dd/mm/yyyy",
         ),
         style: Theme.of(context)
             .textTheme
@@ -76,8 +76,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           // labelText: widget.isEnable ? widget.labelText : null,
           suffixIconConstraints: const BoxConstraints(minWidth: 24),
           suffixIcon: const Icon(
-            Icons.calendar_today,
-            size: 16,
+            Icons.edit_calendar_outlined,
+            size: 20,
           ),
           filled: false,
         ),

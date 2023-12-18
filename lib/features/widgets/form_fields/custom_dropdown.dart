@@ -54,7 +54,10 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   return DropdownMenuItem(
                     value: value,
                     child: SizedBox(
-                      width: min(width!, constraint.maxWidth) - 40,
+                      width: (width != null
+                              ? min(width!, constraint.maxWidth)
+                              : constraint.maxWidth) -
+                          40,
                       child: Text(
                         value,
                         style: Theme.of(context)

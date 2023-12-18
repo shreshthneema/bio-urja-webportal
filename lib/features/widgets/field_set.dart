@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:webportal_biourja_flutter/utils/extensions/build_context_ext.dart';
-import 'package:webportal_biourja_flutter/utils/extensions/list_ext.dart';
+import '../../utils/index.dart';
 
 import 'form_section.dart';
 
