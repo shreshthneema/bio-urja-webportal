@@ -29,8 +29,10 @@ class CurrentPricingModel {
 
 class CurrentPricingTable extends StatefulWidget {
   final double defaultWidth;
+  final List<CurrentPricingModel> data;
 
-  const CurrentPricingTable({super.key, required this.defaultWidth});
+  const CurrentPricingTable(
+      {super.key, required this.defaultWidth, required this.data});
 
   @override
   State<CurrentPricingTable> createState() => _CurrentPricingTableState();
@@ -78,34 +80,23 @@ class _CurrentPricingTableState extends State<CurrentPricingTable> {
           'UOM',
           'Status',
         ],
-        dataList: [
-          [
-            CellData(string: ''),
-            CellData(string: 'FIXED PRICE PURCHASE BULK'),
-            CellData(string: 'Pay'),
-            CellData(string: '10/01/2023'),
-            CellData(string: '10/31/2023'),
-            CellData(string: 'Actual and Estimate'),
-            CellData(string: 'CBOB'),
-            CellData(string: 'USD'),
-            CellData(string: 'Primary	'),
-            CellData(string: 'gal'),
-            CellData(string: 'Active'),
-          ],
-          [
-            CellData(string: ''),
-            CellData(string: 'Broker Commission'),
-            CellData(string: 'Pay'),
-            CellData(string: '10/01/2023'),
-            CellData(string: '10/31/2023'),
-            CellData(string: 'Actual and Estimate'),
-            CellData(string: 'CBOB'),
-            CellData(string: 'USD'),
-            CellData(string: 'Secondary'),
-            CellData(string: 'gal'),
-            CellData(string: 'Inactive'),
-          ]
-        ],
+        dataList: widget.data
+            .map(
+              (e) => [
+                CellData(string: ''),
+                CellData(string: e.provision),
+                CellData(string: e.directions),
+                CellData(string: e.fromDate),
+                CellData(string: e.toDate),
+                CellData(string: e.provisionUsage),
+                CellData(string: e.product),
+                CellData(string: e.currency),
+                CellData(string: e.type),
+                CellData(string: e.uom),
+                CellData(string: e.status),
+              ],
+            )
+            .toList(),
       ),
     );
     //   return ;
