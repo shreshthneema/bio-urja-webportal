@@ -55,13 +55,14 @@ class _AndroidConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       titleTextStyle: context.textTheme.headlineLarge,
-      titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 5),
-      contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 20),
-      actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 20),
+      titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+      contentPadding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+      actionsPadding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
       insetPadding: EdgeInsets.symmetric(
-          horizontal: context.screenWidth >= tabletScreenBreakpoint
-              ? context.screenWidth * 0.3
-              : 50),
+        horizontal: context.screenWidth >= tabletScreenBreakpoint
+            ? context.screenWidth * 0.3
+            : 50,
+      ),
       elevation: 100,
       title: Text(title),
       content: Text(
@@ -72,7 +73,7 @@ class _AndroidConfirmationDialog extends StatelessWidget {
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: context.colorScheme.onBackground,
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           ),
           onPressed: () => Navigator.pop(context, false),
           child: const Text('Cancel'),
@@ -83,7 +84,7 @@ class _AndroidConfirmationDialog extends StatelessWidget {
             backgroundColor: isDestructive
                 ? context.colorScheme.error
                 : context.colorScheme.secondary,
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           ),
           onPressed: () => Navigator.pop(context, true),
           child: Text(confirmText),

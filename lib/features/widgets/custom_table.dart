@@ -74,7 +74,7 @@ class CustomTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget getCell(CellData cellData) {
-      Widget cell = const Text("");
+      Widget cell = const Text('');
 
       if (cellData.widget != null) {
         cell = cellData.widget!;
@@ -87,8 +87,9 @@ class CustomTable extends StatelessWidget {
 
       return Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: cellHorizontalPadding + 2,
-            vertical: cellVerticalPadding),
+          horizontal: cellHorizontalPadding + 2,
+          vertical: cellVerticalPadding,
+        ),
         child: cell,
       );
     }
@@ -106,10 +107,11 @@ class CustomTable extends StatelessWidget {
                             ? () => onSelectRow!(data.key)
                             : null,
                         child: ColoredBox(
-                            color: isSelected != null && isSelected == data.key
-                                ? selectRowColor ?? Colors.grey.shade300
-                                : Theme.of(context).colorScheme.background,
-                            child: getCell(cellData)),
+                          color: isSelected != null && isSelected == data.key
+                              ? selectRowColor ?? Colors.grey.shade300
+                              : Theme.of(context).colorScheme.background,
+                          child: getCell(cellData),
+                        ),
                       ),
                     )
                     .toList(),
@@ -159,9 +161,10 @@ class CustomTable extends StatelessWidget {
                             title,
                             style: headerTextStyle ??
                                 Theme.of(context).textTheme.titleSmall?.apply(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
+                                    ),
                           ),
                         ),
                       )
@@ -170,8 +173,9 @@ class CustomTable extends StatelessWidget {
               ],
             ),
             maxHeight == null
-                ? ConstrainedBox(
+                ? Container(
                     constraints: BoxConstraints(maxHeight: maxHeight!),
+                    height: maxHeight,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: dataTable,

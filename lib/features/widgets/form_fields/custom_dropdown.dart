@@ -42,61 +42,64 @@ class _CustomDropDownState extends State<CustomDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraint) {
-      width = width ?? constraint.maxWidth;
-      return SizedBox(
-        width: width,
-        child: DropdownButtonFormField(
-          value: widget.onChange == null ? dropdownValue : widget.defaultValue,
-          // focusColor: Colors.grey.shade200,
-          items: widget.isEnable
-              ? widget.dropItems.map((String value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: SizedBox(
-                      width: (width != null
-                              ? min(width!, constraint.maxWidth)
-                              : constraint.maxWidth) -
-                          40,
-                      child: Text(
-                        value,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  );
-                }).toList()
-              : widget.defaultValue != null
-                  ? [
-                      DropdownMenuItem(
-                        value: widget.defaultValue,
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        width = width ?? constraint.maxWidth;
+        return SizedBox(
+          width: width,
+          child: DropdownButtonFormField(
+            value:
+                widget.onChange == null ? dropdownValue : widget.defaultValue,
+            // focusColor: Colors.grey.shade200,
+            items: widget.isEnable
+                ? widget.dropItems.map((String value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: SizedBox(
+                        width: (width != null
+                                ? min(width!, constraint.maxWidth)
+                                : constraint.maxWidth) -
+                            40,
                         child: Text(
-                          widget.defaultValue!,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          value,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.w600),
                           overflow: TextOverflow.ellipsis,
                         ),
-                      )
-                    ]
-                  : null,
-          style: Theme.of(context).textTheme.bodyMedium,
-          decoration: InputDecoration(
-            enabled: widget.isEnable,
-            labelText: widget.labelText,
-            filled: false,
+                      ),
+                    );
+                  }).toList()
+                : widget.defaultValue != null
+                    ? [
+                        DropdownMenuItem(
+                          value: widget.defaultValue,
+                          child: Text(
+                            widget.defaultValue!,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ]
+                    : null,
+            style: Theme.of(context).textTheme.bodyMedium,
+            decoration: InputDecoration(
+              enabled: widget.isEnable,
+              labelText: widget.labelText,
+              filled: false,
+            ),
+            onSaved: widget.onSaved,
+            validator: widget.validator,
+            onChanged: widget.isEnable
+                ? widget.onChange ??
+                    (value) {
+                      setState(() => dropdownValue = value.toString());
+                    }
+                : null,
           ),
-          onSaved: widget.onSaved,
-          validator: widget.validator,
-          onChanged: widget.isEnable
-              ? widget.onChange ??
-                  (value) {
-                    setState(() => dropdownValue = value.toString());
-                  }
-              : null,
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

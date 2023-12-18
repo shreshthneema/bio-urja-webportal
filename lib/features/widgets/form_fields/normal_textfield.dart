@@ -15,19 +15,20 @@ class NormalTextField extends StatelessWidget {
   final IconData? suffixIcon;
   final TextAlign? textAlign;
 
-  const NormalTextField(
-      {super.key,
-      this.defaultValue,
-      this.autoFocus = false,
-      this.labelText,
-      this.keyboardType = TextInputType.text,
-      this.validate,
-      required this.onSaved,
-      this.maxLines = 1,
-      this.verticalPadding = 5,
-      this.isEnable = true,
-      this.suffixIcon,
-      this.textAlign});
+  const NormalTextField({
+    super.key,
+    this.defaultValue,
+    this.autoFocus = false,
+    this.labelText,
+    this.keyboardType = TextInputType.text,
+    this.validate,
+    required this.onSaved,
+    this.maxLines = 1,
+    this.verticalPadding = 5,
+    this.isEnable = true,
+    this.suffixIcon,
+    this.textAlign,
+  });
 
   @override
   Widget build(BuildContext context) {

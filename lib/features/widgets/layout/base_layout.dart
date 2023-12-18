@@ -36,18 +36,22 @@ class BaseLayout extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                       borderSide: BorderSide(
-                          width: 0, color: context.colorScheme.onPrimary),
+                        width: 0,
+                        color: context.colorScheme.onPrimary,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                       borderSide: BorderSide(
-                          width: 0, color: context.colorScheme.onPrimary),
+                        width: 0,
+                        color: context.colorScheme.onPrimary,
+                      ),
                     ),
                   ),
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(

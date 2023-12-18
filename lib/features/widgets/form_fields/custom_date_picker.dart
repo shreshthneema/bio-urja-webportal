@@ -8,13 +8,14 @@ class CustomDatePicker extends StatefulWidget {
   final Function(DateTime?) onSaved;
   final String? Function(String?)? validator;
 
-  const CustomDatePicker(
-      {super.key,
-      this.defaultValue,
-      this.isEnable = true,
-      this.labelText = 'Select Date',
-      required this.onSaved,
-      this.validator});
+  const CustomDatePicker({
+    super.key,
+    this.defaultValue,
+    this.isEnable = true,
+    this.labelText = 'Select Date',
+    required this.onSaved,
+    this.validator,
+  });
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -31,14 +32,15 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       lastDate: DateTime(2101),
       builder: (context, child) {
         return Theme(
-            data: Theme.of(context).copyWith(
-              textTheme: const TextTheme(
-                bodyMedium: TextStyle(
-                  fontSize: 8,
-                ),
+          data: Theme.of(context).copyWith(
+            textTheme: const TextTheme(
+              bodyMedium: TextStyle(
+                fontSize: 8,
               ),
             ),
-            child: child!);
+          ),
+          child: child!,
+        );
       },
     );
 
@@ -64,7 +66,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         enabled: widget.isEnable,
         onTap: () => widget.isEnable ? _selectDate(context) : null,
         controller: TextEditingController(
-          text: selectedDate != null ? selectedDate!.formatDate : "dd/mm/yyyy",
+          text: selectedDate != null ? selectedDate!.formatDate : 'dd/mm/yyyy',
         ),
         style: Theme.of(context)
             .textTheme
