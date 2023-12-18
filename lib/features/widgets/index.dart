@@ -8,3 +8,4 @@ export 'layout/base_layout.dart';
 export 'field_set.dart';
 export 'custom_table.dart';
 export 'deal_details.dart';
+export 'current_pricing_table.dart';
