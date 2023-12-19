@@ -7,4 +7,5 @@ class AppAssets {
   static const String theme = 'assets/theme/appainter_theme.json';
 
   static const companyLogo = 'assets/images/BioUrja_Companies_Logos.png';
+  static const backgroundImage = 'assets/images/background_image.jpeg';
 }
