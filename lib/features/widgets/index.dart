@@ -10,3 +10,5 @@ export 'custom_table.dart';
 export 'deal_details.dart';
 export 'current_pricing_table.dart';
 export 'provision_info.dart';
+export 'form_fields/password_textfield.dart';
+export 'primary_button.dart';
