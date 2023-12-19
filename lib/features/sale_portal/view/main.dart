@@ -222,7 +222,7 @@ class SalePortalMain extends StatelessWidget {
                     title: '1: RBOB at WRI - IL (KINDER)',
                   ),
                 ],
-                form: SideForm(),
+                form: SalePortalSideForm(),
               ),
             ],
           ),
@@ -232,8 +232,8 @@ class SalePortalMain extends StatelessWidget {
   }
 }
 
-class SideForm extends StatelessWidget {
-  const SideForm({super.key});
+class SalePortalSideForm extends StatelessWidget {
+  const SalePortalSideForm({super.key});
 
   @override
   Widget build(BuildContext context) {
