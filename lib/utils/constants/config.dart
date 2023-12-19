@@ -7,6 +7,6 @@ class Config {
   // ignore: do_not_use_environment
   static const baseurl = String.fromEnvironment(
     'Base_Url',
-    defaultValue: 'localhost:3000',
+    defaultValue: '10.8.0.33:50000/b1s/v1',
   );
 }

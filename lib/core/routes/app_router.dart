@@ -9,12 +9,10 @@ import 'route.dart';
 
 mixin RouterMixin on State<MainApp> {
   GoRouter router = GoRouter(
-
     initialLocation: AppRoute.login.path,
     debugLogDiagnostics: true,
     routes: <GoRoute>[
       GoRoute(
-         
         path: AppRoute.login.path,
         name: 'Login',
         builder: (context, state) => const LoginPage(),
