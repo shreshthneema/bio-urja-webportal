@@ -14,6 +14,7 @@ class NormalTextField extends StatelessWidget {
   final String? defaultValue;
   final IconData? suffixIcon;
   final TextAlign? textAlign;
+  final TextStyle? defaultTextStyle;
 
   const NormalTextField({
     super.key,
@@ -28,6 +29,7 @@ class NormalTextField extends StatelessWidget {
     this.isEnable = true,
     this.suffixIcon,
     this.textAlign,
+    this.defaultTextStyle,
   });
 
   @override
@@ -50,7 +52,7 @@ class NormalTextField extends StatelessWidget {
       autofocus: autoFocus,
       initialValue: defaultValue,
       textAlign: textAlign ?? TextAlign.left,
-      style:
+      style: defaultTextStyle ??
           context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
       decoration: InputDecoration(
         suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,

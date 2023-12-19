@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:webportal_biourja_flutter/utils/extensions/build_context_ext.dart';
 
 import 'loading_screen_controller.dart';
 
@@ -65,7 +64,9 @@ class LoadingScreen {
                       const SizedBox(
                         height: 5,
                       ),
-                      const CircularProgressIndicator(),
+                      CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -75,7 +76,13 @@ class LoadingScreen {
                           if (snapshot.hasData) {
                             return Text(
                               snapshot.data!,
-                              style: context.textTheme.titleMedium,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.apply(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
                             );
                           }
                           return const SizedBox();
