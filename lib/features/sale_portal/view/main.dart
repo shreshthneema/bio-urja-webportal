@@ -267,7 +267,7 @@ class SideForm extends StatelessWidget {
         ),
         FormSection(
           defaultWidth: major,
-          title: const Text('Receipt of:'),
+          title: const Text('Delivery of:'),
           fields: [
             CustomDropDown(
               width: 100,
