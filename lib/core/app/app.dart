@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import '../../features/sale_portal/view/main.dart';
-import '../../features/buy_sell_portal/view/main.dart';
+import '../../core/routes/app_router.dart';
+
 import 'style.dart';
 // import 'package:cms_main_one/core/di/get_it_setup.dart';
 // import 'package:cms_main_one/core/routes/app_router.dart';
@@ -18,15 +18,15 @@ class MainApp extends StatefulWidget {
   State<MainApp> createState() => _MainAppState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainAppState extends State<MainApp> with RouterMixin {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
       title: 'Flutter Demo',
       theme: getTheme(theme: widget.initialTheme),
-      home: const SalePortalMain(),
+      routerConfig: router,
     );
   }
 }
