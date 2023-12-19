@@ -76,7 +76,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
         controller: TextEditingController(
           text: selectedDateTime != null
               ? selectedDateTime!.formatDateTime
-              : "dd/mm/yyyy - hh:mm",
+              : "mm/dd/yyyy - hh:mm",
         ),
         style: Theme.of(context)
             .textTheme

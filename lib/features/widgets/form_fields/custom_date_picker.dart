@@ -66,7 +66,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         enabled: widget.isEnable,
         onTap: () => widget.isEnable ? _selectDate(context) : null,
         controller: TextEditingController(
-          text: selectedDate != null ? selectedDate!.formatDate : 'dd/mm/yyyy',
+          text: selectedDate != null ? selectedDate!.formatDate : 'mm/dd/yyyy',
         ),
         style: Theme.of(context)
             .textTheme
