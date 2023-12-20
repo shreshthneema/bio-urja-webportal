@@ -9,7 +9,7 @@ import 'route.dart';
 
 mixin RouterMixin on State<MainApp> {
   GoRouter router = GoRouter(
-    initialLocation: AppRoute.login.path,
+    initialLocation: AppRoute.buySellPortal.path,
     debugLogDiagnostics: true,
     routes: <GoRoute>[
       GoRoute(

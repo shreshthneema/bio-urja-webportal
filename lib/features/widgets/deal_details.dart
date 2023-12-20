@@ -26,29 +26,29 @@ class DealDetails extends StatelessWidget {
             : Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            // height: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(),
-              ),
-            ),
-            alignment: Alignment.topLeft,
-            child: SingleChildScrollView(
-              scrollDirection:
-                  context.screenWidth < smallDesktopScreenBreakpoint
-                      ? Axis.horizontal
-                      : Axis.vertical,
-              child: Flex(
-                direction: context.screenWidth < smallDesktopScreenBreakpoint
-                    ? Axis.horizontal
-                    : Axis.vertical,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: tabs.toList(),
-              ),
-            ),
-          ),
+          // Container(
+          //   // height: double.infinity,
+          //   decoration: const BoxDecoration(
+          //     border: Border(
+          //       top: BorderSide(),
+          //     ),
+          //   ),
+          //   alignment: Alignment.topLeft,
+          //   child: SingleChildScrollView(
+          //     scrollDirection:
+          //         context.screenWidth < smallDesktopScreenBreakpoint
+          //             ? Axis.horizontal
+          //             : Axis.vertical,
+          //     child: Flex(
+          //       direction: context.screenWidth < smallDesktopScreenBreakpoint
+          //           ? Axis.horizontal
+          //           : Axis.vertical,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       children: tabs.toList(),
+          //     ),
+          //   ),
+          // ),
           Expanded(
             flex: context.screenWidth < smallDesktopScreenBreakpoint ? 0 : 1,
             child: Container(

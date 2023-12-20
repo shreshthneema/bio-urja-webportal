@@ -62,7 +62,7 @@ class FieldSet extends StatelessWidget {
             (field) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: FormSection(
-                defaultWidth: min(width - 30, 400),
+                defaultWidth: min(width - 30, 500),
                 title: field.title,
                 field: field.field,
               ),

@@ -3,10 +3,12 @@ import '../../../utils/index.dart';
 
 class CustomDatePicker extends StatefulWidget {
   final DateTime? defaultValue;
+  final DateTime? value;
   final bool isEnable;
   final String labelText;
   final Function(DateTime?) onSaved;
   final String? Function(String?)? validator;
+  final Function(DateTime?)? onChange;
 
   const CustomDatePicker({
     super.key,
@@ -15,6 +17,8 @@ class CustomDatePicker extends StatefulWidget {
     this.labelText = 'Select Date',
     required this.onSaved,
     this.validator,
+    this.onChange,
+    this.value,
   });
 
   @override
@@ -46,6 +50,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
     if (picked != null && picked != selectedDate) {
       setState(() {
+        widget.onChange != null ? widget.onChange!(picked) : null;
         selectedDate = picked;
       });
     }
@@ -59,6 +64,9 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.value != null) {
+      selectedDate = widget.value;
+    }
     return SizedBox(
       width: 110,
       child: TextFormField(
@@ -85,6 +93,9 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         ),
         validator: widget.validator,
         onSaved: (newValue) => widget.onSaved(selectedDate),
+        onChanged: widget.onChange != null
+            ? (value) => widget.onChange!(selectedDate)
+            : null,
       ),
     );
   }

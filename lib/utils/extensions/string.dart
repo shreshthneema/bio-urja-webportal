@@ -1,4 +1,3 @@
-
 // extension StringExtension on String {
 //   bool get isValidEmail => Regexes.emailRegex.hasMatch(this);
 

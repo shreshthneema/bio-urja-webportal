@@ -12,3 +12,4 @@ export 'extensions/int_ext.dart';
 export 'extensions/list_ext.dart';
 export 'extensions/string.dart';
 export 'type_definition.dart';
+export 'constants/hard_code_field.dart';

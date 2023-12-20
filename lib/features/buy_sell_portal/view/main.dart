@@ -1,254 +1,592 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:webportal_biourja_flutter/features/deal/model/item_master_model/item_master_model.dart';
+import '../../deal/model/business_partner_main_model/business_partner_main_model.dart';
+import '../../deal/model/warehouse_model.dart';
 import '../../../utils/index.dart';
+import '../../deal/bloc/deal_bloc.dart';
 import '../../widgets/index.dart';
 
-class BuySellPortalMain extends StatelessWidget {
+class UDFFilledDataFetchModel {
+  List<BusinessPartnerMainModel>? businessPartners;
+  List<WarehouseModel>? warehouses;
+  List<ItemMasterModel>? itemMasters;
+
+  UDFFilledDataFetchModel({
+    this.businessPartners,
+    this.warehouses,
+    this.itemMasters,
+  });
+}
+
+class BuySellPortalMain extends StatefulWidget {
   const BuySellPortalMain({super.key});
 
   @override
+  State<BuySellPortalMain> createState() => _BuySellPortalMainState();
+}
+
+class _BuySellPortalMainState extends State<BuySellPortalMain> {
+  bool isInitialized = false;
+  late String dealType;
+  List<String> dealTypeList = ['Buy Deal', 'Sell Deal'];
+  List<String> carriers = [];
+  List<String> brokers = [];
+  List<BusinessPartnerMainModel> businessPartnersSupplier = [];
+  List<BusinessPartnerMainModel> businessPartnersCustomer = [];
+  DateTime? effectiveDateFrom;
+  DateTime? effectiveDateTo;
+  List<String>? warehouses = [];
+  List<String>? items = [];
+
+  @override
+  void initState() {
+    dealType = dealTypeList[0];
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var loadingScreenInstance = LoadingScreen.instance();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: BaseLayout(
-        child: DefaultTextStyle(
-          style: context.textTheme.titleSmall!,
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.start,
-            runSpacing: 10,
-            children: [
-              Container(
-                color: context.colorScheme.secondary,
-                width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                child: Row(
-                  children: [
-                    Text(
-                      'Buy/Sell Deal: (Active)',
-                      style: context.textTheme.titleSmall
-                          ?.apply(color: context.colorScheme.onSecondary),
+      child: DealLayout(
+        child: BlocConsumer<DealBloc, DealState>(
+          listener: (context, state) {
+            if (state is DealLoading) {
+              loadingScreenInstance.show(context: context, text: 'Loading...');
+            }
+            if (state is DealSuccess || state is DealFetchError) {
+              loadingScreenInstance.hide();
+            }
+          },
+          buildWhen: (previous, current) => current is! DealLoading,
+          builder: (context, state) {
+            switch (state) {
+              case DealInitial():
+                context.read<DealBloc>().add(FetchDealFieldData());
+                return Container(
+                  height: context.screenHeight,
+                  child: Center(
+                    child: Image.asset(
+                      AppAssets.companyLogo,
+                      color: context.colorScheme.primary,
                     ),
-                  ],
-                ),
-              ),
-              const FormSection(
-                title: Text('Our Number:'),
-                field: Text('CHEVR23TB004'),
-              ),
-              FormSection(
-                title: const Text('Effective Date:'),
-                fields: [
-                  CustomDatePicker(onSaved: (date) {}),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text('to'),
                   ),
-                  CustomDatePicker(onSaved: (date) {}),
-                ],
-              ),
-              FormSection(
-                title: const Text('Term:'),
-                fieldDefaultWidth: 200,
-                field: CustomDropDown(
-                  dropItems: const [
-                    'Evergreen',
-                    'Spot',
-                    'Term',
-                    'Term Evergreen',
-                  ],
-                  defaultValue: 'Evergreen',
-                  onSaved: (val) {},
-                ),
-              ),
-              FormSection(
-                title: const Text('Print Using:'),
-                fields: [
-                  CustomDropDown(
-                    width: 150,
-                    dropItems: const ['Our Paper', '(Empty)', 'Spot'],
-                    defaultValue: 'Our Paper',
-                    onSaved: (val) {},
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                );
+              case DealLoading():
+                return const LinearProgressIndicator();
+              case DealFetchError():
+                return Center(
+                  child: Text('Error ${state.error}'),
+                );
+              case DealSuccess():
+                if (!isInitialized) {
+                  isInitialized = true;
+                  warehouses = state.data.warehouses
+                      ?.map((e) => e.warehouseName.toString())
+                      .toList();
+
+                  items = state.data.itemMasters
+                      ?.map((e) => e.itemName.toString())
+                      .toList();
+                  print(items);
+                  state.data.businessPartners?.forEach((e) {
+                    if (e.cardType != null && e.cardType == 'cCustomer') {
+                      businessPartnersCustomer.add(e);
+                    }
+                    if (e.cardType != null && e.cardType == 'cSupplier') {
+                      businessPartnersSupplier.add(e);
+                    }
+                    if (e.properties1 != null && e.properties1 == 'tYES') {
+                      carriers.add(e.cardName.toString());
+                    }
+                    if (e.properties2 != null && e.properties2 == 'tYES') {
+                      brokers.add(e.cardName.toString());
+                    }
+                  });
+                }
+                // debugPrint([
+                //   warehouses,
+                //   carriers,
+                //   brokers,
+                //   businessPartnersCustomer,
+                //   businessPartnersSupplier
+                // ].toString());
+                return DefaultTextStyle(
+                  style: context.textTheme.titleSmall!,
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    runSpacing: 10,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: Text(
-                          'Text Bottom:',
+                      Container(
+                        color: context.colorScheme.secondary,
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 10),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 150,
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  filled: false,
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                  suffixIcon: const Icon(Icons.arrow_drop_down),
+                                  suffixIconColor:
+                                      context.colorScheme.onPrimary,
+                                ),
+                                value: dealType,
+                                selectedItemBuilder: (context) => dealTypeList
+                                    .map(
+                                      (e) => Text(
+                                        e,
+                                        style: context.textTheme.titleMedium
+                                            ?.apply(color: Colors.white),
+                                      ),
+                                    )
+                                    .toList(),
+                                items: dealTypeList
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (val) {
+                                  setState(() {
+                                    dealType = val!;
+                                  });
+                                  print(val);
+                                },
+                              ),
+                            ),
+                            // Text(
+                            //   'Buy/Sell Deal: (Active)',
+                            //   style: context.textTheme.titleSmall?.apply(
+                            //       color: context.colorScheme.onSecondary),
+                            // ),
+                          ],
                         ),
                       ),
-                      CustomDropDown(
-                        width: 100,
-                        dropItems: const ['No', '(Empty)', 'Yes'],
-                        defaultValue: 'No',
-                        onSaved: (val) {},
+                      const FormSection(
+                        title: Text('Our Number:'),
+                        field: Text('CHEVR23TB004'),
+                      ),
+                      FormSection(
+                        title: const Text('Effective Date:'),
+                        fields: [
+                          CustomDatePicker(
+                            onSaved: (date) {},
+                            onChange: (val) {
+                              setState(() => effectiveDateFrom = val);
+                            },
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('to'),
+                          ),
+                          CustomDatePicker(
+                            onSaved: (date) {},
+                            onChange: (val) {
+                              setState(() => effectiveDateTo = val);
+                            },
+                          ),
+                        ],
+                      ),
+                      FormSection(
+                        title: const Text('Term:'),
+                        fieldDefaultWidth: 200,
+                        field: CustomDropDown(
+                          dropItems: HardCodeData.terms,
+                          defaultValue: 'Evergreen',
+                          onSaved: (val) {},
+                        ),
+                      ),
+                      FormSection(
+                        title: const Text('Print Using:'),
+                        fields: [
+                          CustomDropDown(
+                            width: 150,
+                            dropItems: const ['Our Paper', '(Empty)', 'Spot'],
+                            defaultValue: 'Our Paper',
+                            onSaved: (val) {},
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                  right: 10,
+                                ),
+                                child: Text(
+                                  'Text Bottom:',
+                                ),
+                              ),
+                              CustomDropDown(
+                                width: 100,
+                                dropItems: HardCodeData.textBottom,
+                                defaultValue: 'No',
+                                onSaved: (val) {},
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      dealType == 'Buy Deal'
+                          ? TheirCompany(
+                              companies: businessPartnersCustomer,
+                            )
+                          : SellTheirCompany(
+                              companies: businessPartnersSupplier,
+                            ),
+                      FieldSet(
+                        title: 'Our Company',
+                        fields: [
+                          FieldSetModel(
+                            title: const Text('Division'),
+                            // fieldWidth: width - leftPadding - 180,
+                            field: CustomDropDown(
+                              dropItems: const [
+                                '(Empty)',
+                                'BIOURJA TRADDING, LLC'
+                              ],
+                              onSaved: (val) {},
+                              isEnable: false,
+                              defaultValue: 'BIOURJA TRADDING, LLC',
+                            ),
+                          ),
+                          FieldSetModel(
+                            title: const Text('Trader'),
+                            // fieldWidth: width - leftPadding - 180,
+                            field: CustomDropDown(
+                              dropItems: const [
+                                'GirishUpadhyaya',
+                                'Iliya Naydenov',
+                                'James Hangyal',
+                                'Jen Piper',
+                                'Joe Beck',
+                                'Joe Park',
+                                'Keyur Shah',
+                              ],
+                              onSaved: (val) {},
+                              defaultValue: 'Iliya Naydenov',
+                            ),
+                          ),
+                        ],
+                      ),
+                      FormSection(
+                        title: const Text('Write-off Balance:'),
+                        fields: [
+                          Checkbox(
+                            value: true,
+                            onChanged: (value) {},
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 10,
+                            ),
+                            width: 120,
+                            child: NormalTextField(
+                              onSaved: (val) {},
+                              defaultValue: '25000.00',
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                          CustomDropDown(
+                            width: 180,
+                            dropItems: const ['(Empty)'],
+                            onSaved: (val) {},
+                            defaultValue: '(Empty)',
+                          ),
+                        ],
+                      ),
+                      FormSection(
+                        fieldDefaultWidth: 250,
+                        title: const Text('Balance Clause:'),
+                        field: CustomDropDown(
+                          dropItems: const ['(Empty)'],
+                          onSaved: (val) {},
+                          defaultValue: '(Empty)',
+                        ),
+                      ),
+                      FormSection(
+                        fieldDefaultWidth: 110,
+                        title: const Text('Trade Date:'),
+                        field: CustomDatePicker(
+                          onSaved: (val) {},
+                          defaultValue: DateTime.now(),
+                        ),
+                      ),
+                      FormSection(
+                        fieldDefaultWidth: 250,
+                        title: const Text('Master Aggrement:'),
+                        field: CustomDropDown(
+                          dropItems: const ['(Empty)'],
+                          onSaved: (val) {},
+                          defaultValue: '(Empty)',
+                        ),
+                      ),
+                      FormSection(
+                        fieldDefaultWidth: 700,
+                        defaultWidth: context.screenWidth,
+                        title: const Text('Comments'),
+                        field: NormalTextField(onSaved: (val) {}),
+                      ),
+                      DealDetails(
+                        tabs: [
+                          SideTab(
+                            baseColor: Colors.yellow,
+                            letter: 'R',
+                            isSelected: true,
+                            title:
+                                '1: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
+                          ),
+                          SideTab(
+                            baseColor: Colors.blue,
+                            letter: 'D',
+                            isSelected: false,
+                            title:
+                                '2: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
+                          ),
+                        ],
+                        form: SideForm(
+                          warehouseList: warehouses,
+                          carriersList: carriers,
+                          brokersList: brokers,
+                          effectiveDateFrom: effectiveDateFrom,
+                          effectiveDateTo: effectiveDateTo,
+                          itemsList: items,
+                        ),
                       ),
                     ],
                   ),
-                ],
-              ),
-              FieldSet(
-                title: 'Their Company',
-                fields: [
-                  FieldSetModel(
-                    title: const Text('Company'),
-                    // fieldWidth: width - leftPadding - 180,
-                    field: CustomDropDown(
-                      dropItems: const ['(Empty)', 'CHEVRON - Trading'],
-                      onSaved: (val) {},
-                      isEnable: false,
-                      defaultValue: 'CHEVRON - Trading',
-                    ),
-                  ),
-                  FieldSetModel(
-                    title: const Text('Contact'),
-                    // fieldWidth: width - leftPadding - 180,
-                    field: CustomDropDown(
-                      dropItems: const [
-                        'Ian Waring',
-                        'Jeff Huck',
-                        'Jim Frick',
-                        'JoshRogers',
-                        'Keth Malazdrewicz',
-                        'Kyle Finn',
-                        'Matt Brewer',
-                      ],
-                      onSaved: (val) {},
-                      defaultValue: 'Jeff Huck',
-                    ),
-                  ),
-                ],
-              ),
-              FieldSet(
-                title: 'Our Company',
-                fields: [
-                  FieldSetModel(
-                    title: const Text('Division'),
-                    // fieldWidth: width - leftPadding - 180,
-                    field: CustomDropDown(
-                      dropItems: const ['(Empty)', 'BIOURJA TRADDING, LLC'],
-                      onSaved: (val) {},
-                      isEnable: false,
-                      defaultValue: 'BIOURJA TRADDING, LLC',
-                    ),
-                  ),
-                  FieldSetModel(
-                    title: const Text('Trader'),
-                    // fieldWidth: width - leftPadding - 180,
-                    field: CustomDropDown(
-                      dropItems: const [
-                        'GirishUpadhyaya',
-                        'Iliya Naydenov',
-                        'James Hangyal',
-                        'Jen Piper',
-                        'Joe Beck',
-                        'Joe Park',
-                        'Keyur Shah',
-                      ],
-                      onSaved: (val) {},
-                      defaultValue: 'Iliya Naydenov',
-                    ),
-                  ),
-                ],
-              ),
-              FormSection(
-                title: const Text('Write-off Balance:'),
-                fields: [
-                  Checkbox(
-                    value: true,
-                    onChanged: (value) {},
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 10,
-                    ),
-                    width: 120,
-                    child: NormalTextField(
-                      onSaved: (val) {},
-                      defaultValue: '25000.00',
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
-                  CustomDropDown(
-                    width: 180,
-                    dropItems: const ['(Empty)'],
-                    onSaved: (val) {},
-                    defaultValue: '(Empty)',
-                  ),
-                ],
-              ),
-              FormSection(
-                fieldDefaultWidth: 250,
-                title: const Text('Balance Clause:'),
-                field: CustomDropDown(
-                  dropItems: const ['(Empty)'],
-                  onSaved: (val) {},
-                  defaultValue: '(Empty)',
-                ),
-              ),
-              FormSection(
-                title: const Text('Trade Date:'),
-                field: CustomDatePicker(
-                  onSaved: (val) {},
-                  defaultValue: DateTime.now(),
-                ),
-              ),
-              FormSection(
-                fieldDefaultWidth: 250,
-                title: const Text('Master Aggrement:'),
-                field: CustomDropDown(
-                  dropItems: const ['(Empty)'],
-                  onSaved: (val) {},
-                  defaultValue: '(Empty)',
-                ),
-              ),
-              FormSection(
-                fieldDefaultWidth: 700,
-                defaultWidth: context.screenWidth,
-                title: const Text('Comments'),
-                field: NormalTextField(onSaved: (val) {}),
-              ),
-              const DealDetails(
-                tabs: [
-                  SideTab(
-                    baseColor: Colors.yellow,
-                    letter: 'R',
-                    isSelected: true,
-                    title: '1: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
-                  ),
-                  SideTab(
-                    baseColor: Colors.blue,
-                    letter: 'D',
-                    isSelected: false,
-                    title: '2: A3 (Colonial) (CBOB) at PDA - TX (COLONIAL P/L)',
-                  ),
-                ],
-                form: SideForm(),
-              ),
-            ],
-          ),
+                );
+            }
+          },
         ),
       ),
     );
   }
 }
 
-class SideForm extends StatelessWidget {
+class TheirCompany extends StatefulWidget {
+  final List<BusinessPartnerMainModel> companies;
+
+  const TheirCompany({
+    super.key,
+    required this.companies,
+  });
+
+  @override
+  State<TheirCompany> createState() => _TheirCompanyState();
+}
+
+class _TheirCompanyState extends State<TheirCompany> {
+  String? dealCompany;
+  String? dealTrader;
+  List<String>? dealTradersList = [];
+
+  @override
+  void initState() {
+    dealCompany = widget.companies.isNotEmpty
+        ? widget.companies.elementAt(0).cardName
+        : null;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    dealTradersList = widget.companies
+        .firstWhere((e) => e.cardName == dealCompany)
+        .contactEmployees
+        ?.map((e) => e.name.toString())
+        .toList();
+
+    return FieldSet(
+      title: 'Their Company',
+      fields: [
+        FieldSetModel(
+          title: const Text('Company'),
+          // fieldWidth: width - leftPadding - 180,
+
+          field: CustomDropDown(
+            dropItems:
+                widget.companies.map((e) => e.cardName.toString()).toList(),
+            onChange: (val) {
+              setState(() {
+                dealCompany = val;
+                dealTrader =
+                    dealTradersList != null && dealTradersList!.isNotEmpty
+                        ? dealTradersList!.first
+                        : null;
+              });
+            },
+            onSaved: (val) {},
+            defaultValue: dealCompany,
+          ),
+        ),
+        FieldSetModel(
+          title: const Text('Contact'),
+          // fieldWidth: width - leftPadding - 180,
+          field: CustomDropDown(
+            dropItems: dealTradersList ?? [],
+            onChange: (val) {
+              setState(() => dealTrader = val);
+            },
+            onSaved: (val) {},
+            defaultValue: dealTradersList != null && dealTradersList!.isNotEmpty
+                ? dealTradersList!.first
+                : null,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SellTheirCompany extends StatefulWidget {
+  final List<BusinessPartnerMainModel> companies;
+
+  const SellTheirCompany({
+    super.key,
+    required this.companies,
+  });
+
+  @override
+  State<SellTheirCompany> createState() => _SellTheirCompanyState();
+}
+
+class _SellTheirCompanyState extends State<SellTheirCompany> {
+  String? dealCompany;
+  String? dealTrader;
+  List<String>? dealTradersList = [];
+
+  @override
+  void initState() {
+    dealCompany = widget.companies.isNotEmpty
+        ? widget.companies.elementAt(0).cardName
+        : null;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    dealTradersList = widget.companies
+        .firstWhere((e) => e.cardName == dealCompany)
+        .contactEmployees
+        ?.map((e) => e.name.toString())
+        .toList();
+
+    return FieldSet(
+      title: 'Their Company',
+      fields: [
+        FieldSetModel(
+          title: const Text('Company'),
+          // fieldWidth: width - leftPadding - 180,
+
+          field: CustomDropDown(
+            dropItems:
+                widget.companies.map((e) => e.cardName.toString()).toList(),
+            onChange: (val) {
+              setState(() {
+                dealCompany = val;
+                dealTrader =
+                    dealTradersList != null && dealTradersList!.isNotEmpty
+                        ? dealTradersList!.first
+                        : null;
+              });
+            },
+            onSaved: (val) {},
+            defaultValue: dealCompany,
+          ),
+        ),
+        FieldSetModel(
+          title: const Text('Contact'),
+          // fieldWidth: width - leftPadding - 180,
+          field: CustomDropDown(
+            dropItems: dealTradersList ?? [],
+            onChange: (val) {
+              setState(() => dealTrader = val);
+            },
+            onSaved: (val) {},
+            defaultValue: dealTradersList != null && dealTradersList!.isNotEmpty
+                ? dealTradersList!.first
+                : null,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SideForm extends StatefulWidget {
+  final List<String>? warehouseList;
+  final List<String>? itemsList;
+  final List<String>? carriersList;
+  final List<String>? brokersList;
+  final DateTime? effectiveDateFrom;
+  final DateTime? effectiveDateTo;
+
   const SideForm({
     super.key,
+    this.warehouseList,
+    this.carriersList,
+    this.brokersList,
+    this.effectiveDateFrom,
+    this.effectiveDateTo,
+    this.itemsList,
   });
+
+  @override
+  State<SideForm> createState() => _SideFormState();
+}
+
+class _SideFormState extends State<SideForm> {
+  String? warehouseFrom;
+  String? warehouseTo;
+  List<String> warehousesList = [];
+  List<String> carriersList = [];
+  String? carrier;
+  List<String> brokersList = [];
+  String? broker;
+  List<String> itemsList = [];
+  String? item;
+
+  @override
+  void initState() {
+    warehousesList = widget.warehouseList ?? [];
+    warehouseFrom =
+        warehouseTo = warehousesList.isNotEmpty ? warehousesList.first : null;
+    carriersList = widget.carriersList ?? [];
+    carrier = carriersList.isNotEmpty ? carriersList.first : null;
+    brokersList = widget.brokersList ?? [];
+    broker = brokersList.isNotEmpty ? brokersList.first : null;
+    itemsList = widget.itemsList ?? [];
+    item = itemsList.isNotEmpty ? itemsList.first : null;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +624,7 @@ class SideForm extends StatelessWidget {
           fields: [
             CustomDropDown(
               width: 100,
-              dropItems: const ['(Empty)', 'Rack', 'Ethanol', 'Bulk'],
+              dropItems: HardCodeData.quantityTypes,
               onSaved: (val) {},
               defaultValue: 'Bulk',
             ),
@@ -330,15 +668,7 @@ class SideForm extends StatelessWidget {
           defaultWidth: minor,
           title: const Text('Strategy:'),
           field: CustomDropDown(
-            dropItems: const [
-              'KM STL BULK',
-              'KM STL RACK',
-              'MIDWEST BULK',
-              'MIDWEST RACK',
-              'RACK',
-              'SPECULATIVE',
-              'STORAGE',
-            ],
+            dropItems: HardCodeData.strategy,
             onSaved: (val) {},
             defaultValue: 'KM STL BULK',
           ),
@@ -455,12 +785,20 @@ class SideForm extends StatelessWidget {
           defaultWidth: minor,
           title: const Text('Effective Date:'),
           fields: [
-            CustomDatePicker(onSaved: (date) {}),
+            CustomDatePicker(
+              onSaved: (date) {},
+              value: widget.effectiveDateFrom,
+              isEnable: false,
+            ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text('to'),
             ),
-            CustomDatePicker(onSaved: (date) {}),
+            CustomDatePicker(
+              onSaved: (date) {},
+              value: widget.effectiveDateTo,
+              isEnable: false,
+            ),
           ],
         ),
         FormSection(
@@ -493,16 +831,7 @@ class SideForm extends StatelessWidget {
           fields: [
             CustomDropDown(
               width: 220,
-              dropItems: const [
-                'Free on Board',
-                'Cost and Freight',
-                'Cost,Insurance and Freight',
-                'Carriage Paid To',
-                'Carriage and Insurance Paid To',
-                'Delivered at Place',
-                'Delivered EX Ship',
-                'Delivered EX Quay (Duty Paid)',
-              ],
+              dropItems: HardCodeData.titleTransfer,
               onSaved: (val) {},
               defaultValue: 'Free on Board',
             ),
@@ -517,16 +846,7 @@ class SideForm extends StatelessWidget {
             ),
             CustomDropDown(
               width: 220,
-              dropItems: const [
-                'Free on Board',
-                'Cost and Freight',
-                'Cost,Insurance and Freight',
-                'Carriage Paid To',
-                'Carriage and Insurance Paid To',
-                'Delivered at Place',
-                'Delivered EX Ship',
-                'Delivered EX Quay (Duty Paid)',
-              ],
+              dropItems: HardCodeData.titleTransfer,
               onSaved: (val) {},
               defaultValue: 'Free on Board',
             ),
@@ -537,17 +857,12 @@ class SideForm extends StatelessWidget {
           title: const Text('Carrier:'),
           field: CustomDropDown(
             // width: 200,
-            dropItems: const [
-              'COLONIAL PIPELINE',
-              'COLONIAL TRANSPORT INC',
-              'COMMERCIAL LUBRICATO',
-              'CONESTOGA TRANSPORT LLC',
-              'CONSOLIDATED TRUCKING INC',
-              'CONSUMERS COOPERATIVE SOCIETY',
-              'CONSUMERS PETRO',
-            ],
+            dropItems: carriersList,
             onSaved: (val) {},
-            defaultValue: 'COLONIAL PIPELINE',
+            onChange: (val) {
+              carrier = val;
+            },
+            defaultValue: carrier,
           ),
         ),
         FormSection(
@@ -556,18 +871,12 @@ class SideForm extends StatelessWidget {
           fields: [
             CustomDropDown(
               width: 200,
-              dropItems: const [
-                'PDA-TX (COLONIAL P/L)',
-                'PDA TX (EXPLORER P/L)',
-                'PHI-PA (BUCKEYE P/L)',
-                'PLJ-AL (COLONIAL P/L)',
-                'PRD NJ (COLONIAL P/L)',
-                'PSD-GA (COLONIAL P/L)',
-                'PTN TX (EXPLORER P/L)',
-                'RCH-MN (MAG)',
-              ],
+              dropItems: warehousesList,
               onSaved: (val) {},
-              defaultValue: 'PDA-TX (COLONIAL P/L)',
+              onChange: (val) {
+                warehouseFrom = val;
+              },
+              defaultValue: warehouseFrom,
             ),
             const SizedBox(
               width: 5,
@@ -580,18 +889,12 @@ class SideForm extends StatelessWidget {
             ),
             CustomDropDown(
               width: 200,
-              dropItems: const [
-                'PDA-TX (COLONIAL P/L)',
-                'PDA TX (EXPLORER P/L)',
-                'PHI-PA (BUCKEYE P/L)',
-                'PLJ-AL (COLONIAL P/L)',
-                'PRD NJ (COLONIAL P/L)',
-                'PSD-GA (COLONIAL P/L)',
-                'PTN TX (EXPLORER P/L)',
-                'RCH-MN (MAG)',
-              ],
+              dropItems: warehousesList,
               onSaved: (val) {},
-              defaultValue: 'PDA-TX (COLONIAL P/L)',
+              onChange: (val) {
+                warehouseTo = val;
+              },
+              defaultValue: warehouseTo,
             ),
           ],
         ),
@@ -600,7 +903,7 @@ class SideForm extends StatelessWidget {
           fieldDefaultWidth: 200,
           title: const Text('Pipeline Cycle:'),
           field: CustomDropDown(
-            dropItems: const ['59th', '60th'],
+            dropItems: HardCodeData.pipelineCycle,
             onSaved: (val) {},
             defaultValue: '59th',
           ),
@@ -611,45 +914,84 @@ class SideForm extends StatelessWidget {
           defaultTitleWidth: 160,
           title: const Text('Supply/Demand Region:'),
           field: CustomDropDown(
-            dropItems: const ['010GC', '020GP', '030GP', '040BI', '045RI'],
+            dropItems: HardCodeData.supplyDemandRegion,
             onSaved: (val) {},
             defaultValue: '010GC',
           ),
         ),
-        CurrentPricingTable(
-          defaultWidth: width,
-          data: [
-            CurrentPricingModel(
-              provision: 'FIXED PRICE PURCHASE BULK',
-              directions: 'Pay',
-              fromDate: '10/01/2023',
-              toDate: '10/31/2023',
-              provisionUsage: 'Actual and Estimate',
-              product: 'CBOB',
-              currency: 'USD',
-              type: 'Primary	',
-              uom: 'gal',
-              status: 'Active',
+        FormSection(
+          defaultWidth: minor,
+          title: const Text('Commodities:'),
+          field: CustomDropDown(
+            // width: 200,
+            dropItems: itemsList,
+            onSaved: (val) {},
+            onChange: (val) {
+              item = val;
+            },
+            defaultValue: item,
+          ),
+        ),
+        FormSection(
+          defaultWidth: major,
+          title: const Text('Brokers:'),
+          fields: [
+            CustomDropDown(
+              width: 200,
+              dropItems: brokersList,
+              onSaved: (val) {},
+              onChange: (val) {
+                broker = val;
+              },
+              defaultValue: broker,
             ),
-            CurrentPricingModel(
-              provision: 'Broker Commission',
-              directions: 'Pay',
-              fromDate: '10/01/2023',
-              toDate: '10/31/2023',
-              provisionUsage: 'Actual and Estimate',
-              product: 'CBOB',
-              currency: 'USD',
-              type: 'Secondary',
-              uom: 'gal',
-              status: 'Inactive',
+            SizedBox(
+              width: 5,
+            ),
+            SizedBox(
+              width: 100,
+              child: NormalTextField(
+                onSaved: (val) {},
+                defaultValue: '0.25',
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+              ),
             ),
           ],
         ),
-        ProvisionInfo(
-          width: width,
-          dealDirection: 'Pay',
-          tableToDisplay: const FixedPriceTable(),
-        ),
+        // CurrentPricingTable(
+        //   defaultWidth: width,
+        //   data: [
+        //     CurrentPricingModel(
+        //       provision: 'FIXED PRICE PURCHASE BULK',
+        //       directions: 'Pay',
+        //       fromDate: '10/01/2023',
+        //       toDate: '10/31/2023',
+        //       provisionUsage: 'Actual and Estimate',
+        //       product: 'CBOB',
+        //       currency: 'USD',
+        //       type: 'Primary	',
+        //       uom: 'gal',
+        //       status: 'Active',
+        //     ),
+        //     CurrentPricingModel(
+        //       provision: 'Broker Commission',
+        //       directions: 'Pay',
+        //       fromDate: '10/01/2023',
+        //       toDate: '10/31/2023',
+        //       provisionUsage: 'Actual and Estimate',
+        //       product: 'CBOB',
+        //       currency: 'USD',
+        //       type: 'Secondary',
+        //       uom: 'gal',
+        //       status: 'Inactive',
+        //     ),
+        //   ],
+        // ),
+        // ProvisionInfo(
+        //   width: width,
+        //   dealDirection: 'Pay',
+        //   tableToDisplay: const FixedPriceTable(),
+        // ),
       ],
     );
   }

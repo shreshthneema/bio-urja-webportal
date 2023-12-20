@@ -9,4 +9,9 @@ class Config {
     'Base_Url',
     defaultValue: '10.8.0.33:50000/b1s/v1',
   );
+
+  // static const companyDB = 'DEMO_SAUDA1';
+  static const companyDB = 'RA_SAP';
+  static const username = 'manager';
+  static const password = '1234';
 }
